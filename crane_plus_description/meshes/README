@@ -1,0 +1,18 @@
+The meshes for the following parts were created by I-Bioloid and obtained from:
+http://www.thingiverse.com/thing:5192
+
+ax12_box.stl
+f2.stl
+f3.stl
+f4.stl
+f53.stl
+
+The meshes for the following parts were created by Geoffrey Biggs in part based
+on the "finger.stl" model from the turtlebot_arm_description ROS package.
+
+finger_fixed.stl
+finger_moving.stl
+
+The meshes for the following parts were created by Geoffrey Biggs.
+
+mount.stl
