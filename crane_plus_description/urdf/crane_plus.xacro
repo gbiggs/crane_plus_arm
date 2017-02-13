@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find crane_plus_description)/urdf/crane_plus_hardware.xacro"/>
+
+  <material name="grey">
+    <color rgba="0.6 0.6 0.6 1.0"/>
+  </material>
+  <material name="black">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+
+  <xacro:macro name="crane_plus" params="parent servo_color bracket_color
+               gripper_color *origin joints_vlimit pan_llimit pan_ulimit">
+    <link name="crane_plus_base_link"/>
+    <joint name="crane_plus_base_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="crane_plus_base_link"/>
+    </joint>
+
+    <!-- Mounting plate -->
+    <mounting_plate
+        parent="crane_plus_base_link"
+        name="crane_plus_mounting_plate"
+        color="black">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </mounting_plate>
+
+    <!-- Base bracket -->
+    <bioloid_f53_fixed
+        parent="crane_plus_mounting_plate_link"
+        name="crane_plus_base_bracket"
+        color="grey">
+      <origin xyz="0 0 ${MOUNT_HEIGHT}" rpy="0 0 0"/>
+    </bioloid_f53_fixed>
+
+    <!-- Shoulder servo -->
+    <dynamixel_ax12_fixed
+        parent="crane_plus_base_bracket_link"
+        name="crane_plus_shoulder_servo"
+        color="black">
+      <origin xyz="0 0 ${F53_HEIGHT}" rpy="0 0 0"/>
+    </dynamixel_ax12_fixed>
+
+    <!-- Shoulder bracket -->
+    <bioloid_f2_revolute
+        parent="crane_plus_shoulder_servo_link"
+        name="crane_plus_shoulder_bracket_rev"
+        color="grey"
+        vlimit="${joints_vlimit}"
+        llimit="${pan_llimit}"
+        ulimit="${pan_ulimit}">
+      <origin xyz="-${AX12_AXEL_OFFSET} 0 ${AX12_HEIGHT}" rpy="0 0 0"/>
+    </bioloid_f2_revolute>
+
+  </xacro:macro>
+</robot>
