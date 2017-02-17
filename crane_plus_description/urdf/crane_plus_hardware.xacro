@@ -5,27 +5,50 @@
   <xacro:property name="SCALE_CM" value="0.01"/>
 
   <xacro:property name="AX12_WIDTH" value="0.032"/>
+  <xacro:property name="AX12_ORIGIN_TO_SIDE_SCREW" value="0.0135"/>
+  <!-- The AX12 mesh is offset 1.5mm on the X axis away from the direction of
+       the axle (i.e. the portion on negative X axis, with the axle, is shorter
+       than the portion on the positive X axis).-->
+  <xacro:property name="AX12_ORIGIN_OFFSET_X" value="-0.0015"/>
+  <!-- The screws along the X axis of the servo are 2.8mm offset from being
+       aligned on the origin of the mesh.-->
+  <xacro:property name="AX12_SIDE_SCREW_OFFSET" value="0.0028"/>
   <xacro:property name="AX12_LENGTH" value="0.050"/>
-  <!-- This height is measured from the bottom axel mount to the top of the
-       servo horn (the round bit on the axel).-->
-  <xacro:property name="AX12_HEIGHT" value="0.040"/>
-  <!-- This height is measured from the screw brackets on the base to the top
-       of the servo horn.-->
-  <xacro:property name="AX12_MOUNTED_HEIGHT" value="0.037"/>
-  <!-- This height is measured from the bottom axel mount to the top of the
-       servo, excluding the horn.-->
-  <xacro:property name="AX12_BODY_HEIGHT" value="0.038"/>
+  <!-- This is the distance from the origin to the centreline of the screws at
+       the opposite end.-->
+  <xacro:property name="AX12_ORIGIN_TO_END_SCREW" value="0.024"/>
   <!-- The distance from the centreline of the servo to the centre of the
-       axel.-->
-  <xacro:property name="AX12_AXEL_OFFSET" value="0.0135"/>
+       axle.-->
+  <xacro:property name="AX12_AXLE_OFFSET" value="0.0135"/>
+  <!-- The distance from the origin of the servo mesh to the centre of the
+       axle.-->
+  <xacro:property name="AX12_ORIGIN_TO_AXLE" value="0.012"/>
+  <!-- This height is measured from the bottom axle mount to the top of the
+       servo horn (the round bit on the axle).-->
+  <xacro:property name="AX12_HEIGHT" value="0.040"/>
+  <!-- This height is measured from the bottom of the servo body to the top of
+       the servo body.-->
+  <xacro:property name="AX12_BODY_MAIN_HEIGHT" value="0.032"/>
+  <!-- This height is measured from the bottom axle mount to the top of the
+       servo, excluding the horn.-->
+  <xacro:property name="AX12_BODY_FULL_HEIGHT" value="0.038"/>
+  <!-- This is the height of the top of the servo horn above the servo's
+       origin.-->
+  <xacro:property name="AX12_HORN_HEIGHT" value="0.021"/>
 
-  <xacro:property name="F2_HEIGHT" value="0.0265"/>
-  <xacro:property name="F3_HEIGHT" value="0.009"/>
-  <xacro:property name="F4_HEIGHT" value="0.0525"/>
+  <xacro:property name="F2_HEIGHT" value="0.0375"/>
+  <!-- This height goes from the bottom attachment point to the centreline of
+       the axle attach point.-->
+  <xacro:property name="F2_AXLE_HEIGHT" value="0.0265"/>
+  <xacro:property name="F3_SCREW_HEIGHT" value="0.0055"/>
+  <xacro:property name="F4_HEIGHT" value="0.065"/>
+  <!-- This height goes from the bottom attachment point (excluding the
+       parallel nubs) to the centreline of the axel attach point.-->
+  <xacro:property name="F4_AXLE_HEIGHT" value="0.0525"/>
   <!-- This height goes to where the servo contacts the screw points. It does
        not include the nubs on top that fit between the servo screw attachment
        points.-->
-  <xacro:property name="F53_HEIGHT" value="0.004"/>
+  <xacro:property name="F53_HEIGHT" value="0.007"/>
 
   <xacro:property name="MOUNT_HEIGHT" value="0.001"/>
 
@@ -54,7 +77,7 @@
       </visual>
 
       <collision>
-        <origin xyz="-0.025 -0.025 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
         <geometry>
           <box size="0.05 0.05 0.001"/>
         </geometry>
@@ -87,9 +110,9 @@
       </visual>
 
       <collision>
-        <origin xyz="0.0 0.0 0.0" rpy="-${M_PI/2} 0 0"/>
+        <origin xyz="0.0 0.0 0.004" rpy="0 0 0"/>
         <geometry>
-          <box size="0.022 0.032 0.007"/>
+          <box size="0.022 0.032 0.008"/>
         </geometry>
       </collision>
     </link>
@@ -112,7 +135,7 @@
       </inertial>
 
       <visual>
-        <origin xyz="-0.0028 0 ${AX12_BODY_HEIGHT/2}" rpy="-${M_PI/2} 0 0"/>
+        <origin xyz="0 0 0" rpy="-${M_PI/2} 0 0"/>
         <geometry>
           <mesh filename="package://crane_plus_description/meshes/ax12_box.stl" scale="${SCALE_MM} ${SCALE_MM} ${SCALE_MM}"/>
         </geometry>
@@ -120,15 +143,50 @@
       </visual>
 
       <collision>
-        <origin xyz="-0.0028 0 ${AX12_BODY_HEIGHT/2}" rpy="-${M_PI/2} 0 0"/>
+        <origin xyz="${0-AX12_ORIGIN_OFFSET_X} 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="${AX12_LENGTH} ${AX12_WIDTH} ${AX12_BODY_HEIGHT}"/>
+          <box size="${AX12_LENGTH} ${AX12_WIDTH} ${AX12_BODY_FULL_HEIGHT}"/>
         </geometry>
       </collision>
     </link>
   </xacro:macro>
 
-  <xacro:macro name="bioloid_f2_revolute" params="parent name color llimit ulimit vlimit *origin">
+  <xacro:macro name="dynamixel_ax12_revolute" params="parent name color llimit ulimit vlimit *origin">
+    <joint name="${name}_joint" type="revolute">
+      <xacro:insert_block name="origin"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="30" velocity="${vlimit}" lower="${llimit}" upper="${ulimit}"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.00001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="${AX12_ORIGIN_TO_AXLE} 0 0" rpy="-${M_PI/2} 0 0"/>
+        <geometry>
+          <mesh filename="package://crane_plus_description/meshes/ax12_box.stl" scale="${SCALE_MM} ${SCALE_MM} ${SCALE_MM}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="${AX12_ORIGIN_TO_AXLE-AX12_ORIGIN_OFFSET_X} 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${AX12_LENGTH} ${AX12_WIDTH} ${AX12_BODY_FULL_HEIGHT}"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="bioloid_f2_revolute_base_axis" params="parent name color llimit ulimit vlimit *origin">
     <joint name="${name}_joint" type="revolute">
       <insert_block name="origin"/>
       <axis xyz="0 0 1"/>
@@ -147,7 +205,7 @@
       </inertial>
 
       <visual>
-        <origin xyz="0 0 0.0265" rpy="${M_PI/2} 0 0"/>
+        <origin xyz="0 0 ${F2_AXLE_HEIGHT}" rpy="${M_PI/2} 0 0"/>
         <geometry>
           <mesh filename="package://crane_plus_description/meshes/f2.stl" scale="${SCALE_MM} ${SCALE_MM} ${SCALE_MM}"/>
         </geometry>
@@ -155,9 +213,180 @@
       </visual>
 
       <collision>
-        <origin xyz="0 0 0.0265" rpy="${M_PI/2} 0 0"/>
+        <origin xyz="0 0 0.01875" rpy="0 0 0"/>
         <geometry>
           <box size="0.025 0.0485 0.0375"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="bioloid_f2_revolute" params="parent name color llimit ulimit vlimit *origin">
+    <joint name="${name}_joint" type="revolute">
+      <insert_block name="origin"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="30" velocity="${vlimit}" lower="${llimit}" upper="${ulimit}"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.00001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <mesh filename="package://crane_plus_description/meshes/f2.stl" scale="${SCALE_MM} ${SCALE_MM} ${SCALE_MM}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 -${F2_AXLE_HEIGHT-F2_HEIGHT/2}" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.025 0.0485 0.0375"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="bioloid_f3_fixed" params="parent name color *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.00001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI}"/>
+        <geometry>
+          <mesh filename="package://crane_plus_description/meshes/f3.stl" scale="${SCALE_MM} ${SCALE_MM} ${SCALE_MM}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0045" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.025 0.038 0.009"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="bioloid_f4_revolute" params="parent name color llimit ulimit vlimit *origin">
+    <joint name="${name}_joint" type="revolute">
+      <insert_block name="origin"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="30" velocity="${vlimit}" lower="${llimit}" upper="${ulimit}"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.00001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <mesh filename="package://crane_plus_description/meshes/f4.stl" scale="${SCALE_MM} ${SCALE_MM} ${SCALE_MM}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <!-- 0.0015 is for the nub height which is not included in
+             F4_AXLE_HEIGHT -->
+        <origin xyz="0 0 -${F4_AXLE_HEIGHT-F4_HEIGHT/2+0.0015}" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.028 0.0485 0.065"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="fixed_finger" params="parent name color *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.00001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://crane_plus_description/meshes/finger_fixed.stl" scale="${SCALE_MM} ${SCALE_MM} ${SCALE_MM}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://crane_plus_description/meshes/finger_fixed_collision.stl" scale="${SCALE_MM} ${SCALE_MM} ${SCALE_MM}"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="moving_finger" params="parent name color *origin">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link">
+      <inertial>
+        <mass value="0.00001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://crane_plus_description/meshes/finger_moving.stl" scale="${SCALE_MM} ${SCALE_MM} ${SCALE_MM}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://crane_plus_description/meshes/finger_moving_collision.stl" scale="${SCALE_MM} ${SCALE_MM} ${SCALE_MM}"/>
         </geometry>
       </collision>
     </link>
