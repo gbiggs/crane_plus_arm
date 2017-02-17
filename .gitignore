@@ -48,3 +48,5 @@ CATKIN_IGNORE
 
 # SketchUp backup files
 *~.skp
+
+*.swp
