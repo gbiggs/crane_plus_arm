@@ -1,5 +1,8 @@
-arm_controller:
-    type: "position_controllers/JointTrajectoryController"
+controller_manager_ns: /
+controller_list:
+  - name: arm_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
     joints:
       - crane_plus_shoulder_bracket_rev_joint
       - crane_plus_upper_arm_servo_joint

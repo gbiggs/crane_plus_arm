@@ -11,13 +11,13 @@
   <xacro:include filename="$(find crane_plus_description)/urdf/crane_plus.xacro"/>
 
   <!-- Link to provide the location reference for the arm -->
-  <link name="base_link"/>
+  <link name="world"/>
 
   <!-- Use the crane_plus macro to configure a Crane+ arm with desired joint
        velocities limit and lower/upper limits for the first joint. This
        allows accessing different operational areas, e.g. left-handed vs.
        right-handed robots. -->
-  <crane_plus parent="base_link"
+  <crane_plus parent="world"
               servo_color="black" bracket_color="grey" gripper_color="black"
               joints_vlimit="1.571"
               pan_llimit="-2.617" pan_ulimit="2.617">

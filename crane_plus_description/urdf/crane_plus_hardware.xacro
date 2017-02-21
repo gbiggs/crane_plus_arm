@@ -60,12 +60,19 @@
     </joint>
 
     <link name="${name}_link">
+      <!--<inertial>-->
+        <!--<mass value="0.02"/>-->
+        <!--<origin xyz="0 0 0.0005" rpy="0 0 0"/>-->
+        <!--<inertia ixx="4.1683e-6" ixy="0.0" ixz="0.0"-->
+          <!--iyy="8.33e-6" iyz="0.0"-->
+          <!--izz="4.1683e-6"/>-->
+      <!--</inertial>-->
       <inertial>
-        <mass value="0.02"/>
+        <mass value="0.001"/>
         <origin xyz="0 0 0.0005" rpy="0 0 0"/>
-        <inertia ixx="4.1683e-6" ixy="0.0" ixz="0.0"
-          iyy="8.33e-6" iyz="0.0"
-          izz="4.1683e-6"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0"
+          iyy="1" iyz="0.0"
+          izz="1"/>
       </inertial>
 
       <visual>
@@ -94,12 +101,19 @@
 
     <link name="${name}_link">
       <inertial>
-        <mass value="0.005"/>
-        <origin xyz="0.0 0.0 0.004" rpy="0 0 0"/>
-        <inertia ixx="4.53e-7" ixy="0.0" ixz="0.0"
-          iyy="6.283e-7" iyz="0.0"
-          izz="2.283e-7"/>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0"
+          iyy="1" iyz="0.0"
+          izz="1"/>
       </inertial>
+      <!--<inertial>-->
+        <!--<mass value="0.005"/>-->
+        <!--<origin xyz="0.0 0.0 0.004" rpy="0 0 0"/>-->
+        <!--<inertia ixx="4.53e-7" ixy="0.0" ixz="0.0"-->
+          <!--iyy="6.283e-7" iyz="0.0"-->
+          <!--izz="2.283e-7"/>-->
+      <!--</inertial>-->
 
       <visual>
         <origin xyz="0 0 0" rpy="-${M_PI/2} 0 0"/>
@@ -127,12 +141,19 @@
 
     <link name="${name}_link">
       <inertial>
-        <mass value="0.0564"/>
-        <origin xyz="${0-AX12_ORIGIN_OFFSET_X} 0 0" rpy="0 0 0"/>
-        <inertia ixx="1.16e-5" ixy="0.0" ixz="0.0"
-          iyy="1.656e-50" iyz="0.0"
-          izz="1.854e-5"/>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0"
+          iyy="1" iyz="0.0"
+          izz="1"/>
       </inertial>
+      <!--<inertial>-->
+        <!--<mass value="0.0564"/>-->
+        <!--<origin xyz="${0-AX12_ORIGIN_OFFSET_X} 0 0" rpy="0 0 0"/>-->
+        <!--<inertia ixx="1.16e-5" ixy="0.0" ixz="0.0"-->
+          <!--iyy="1.656e-50" iyz="0.0"-->
+          <!--izz="1.854e-5"/>-->
+      <!--</inertial>-->
 
       <visual>
         <origin xyz="0 0 0" rpy="-${M_PI/2} 0 0"/>
@@ -162,12 +183,19 @@
 
     <link name="${name}_link">
       <inertial>
-        <mass value="0.0564"/>
-        <origin xyz="${AX12_ORIGIN_TO_AXLE-AX12_ORIGIN_OFFSET_X} 0 0" rpy="0 0 0"/>
-        <inertia ixx="1.16e-5" ixy="0.0" ixz="0.0"
-          iyy="1.656e-5" iyz="0.0"
-          izz="1.854e-5"/>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0"
+          iyy="1" iyz="0.0"
+          izz="1"/>
       </inertial>
+      <!--<inertial>-->
+        <!--<mass value="0.0564"/>-->
+        <!--<origin xyz="${AX12_ORIGIN_TO_AXLE-AX12_ORIGIN_OFFSET_X} 0 0" rpy="0 0 0"/>-->
+        <!--<inertia ixx="1.16e-5" ixy="0.0" ixz="0.0"-->
+          <!--iyy="1.656e-5" iyz="0.0"-->
+          <!--izz="1.854e-5"/>-->
+      <!--</inertial>-->
 
       <visual>
         <origin xyz="${AX12_ORIGIN_TO_AXLE} 0 0" rpy="-${M_PI/2} 0 0"/>
@@ -197,14 +225,21 @@
 
     <link name="${name}_link">
       <inertial>
-        <mass value="0.01"/>
-        <origin xyz="0 0 0.01875" rpy="0 0 0"/>
-        <!-- Full height: (3.1320833333333333e-06, 2.481041666666667e-06, 1.6927083333333333e-06) -->
-        <!-- Half height: (2.253177083333333e-06, 2.481041666666667e-06, 8.138020833333333e-07) -->
-        <inertia ixx="2.253e-6" ixy="0.0" ixz="0.0"
-          iyy="2.481e-6" iyz="0.0"
-          izz="8.138e-7"/>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0"
+          iyy="1" iyz="0.0"
+          izz="1"/>
       </inertial>
+      <!--<inertial>-->
+        <!--<mass value="0.01"/>-->
+        <!--<origin xyz="0 0 0.01875" rpy="0 0 0"/>-->
+        <!--[> Full height: (3.1320833333333333e-06, 2.481041666666667e-06, 1.6927083333333333e-06) <]-->
+        <!--[> Half height: (2.253177083333333e-06, 2.481041666666667e-06, 8.138020833333333e-07) <]-->
+        <!--<inertia ixx="2.253e-6" ixy="0.0" ixz="0.0"-->
+          <!--iyy="2.481e-6" iyz="0.0"-->
+          <!--izz="8.138e-7"/>-->
+      <!--</inertial>-->
 
       <visual>
         <origin xyz="0 0 ${F2_AXLE_HEIGHT}" rpy="${M_PI/2} 0 0"/>
@@ -234,14 +269,21 @@
 
     <link name="${name}_link">
       <inertial>
-        <mass value="0.01"/>
-        <origin xyz="0 0 -${F2_AXLE_HEIGHT-F2_HEIGHT/2}" rpy="0 0 0"/>
-        <!-- Full height: (3.1320833333333333e-06, 2.481041666666667e-06, 1.6927083333333333e-06) -->
-        <!-- Half height: (2.253177083333333e-06, 2.481041666666667e-06, 8.138020833333333e-07) -->
-        <inertia ixx="2.253e-6" ixy="0.0" ixz="0.0"
-          iyy="2.481e-6" iyz="0.0"
-          izz="8.138e-7"/>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0"
+          iyy="1" iyz="0.0"
+          izz="1"/>
       </inertial>
+      <!--<inertial>-->
+        <!--<mass value="0.01"/>-->
+        <!--<origin xyz="0 0 -${F2_AXLE_HEIGHT-F2_HEIGHT/2}" rpy="0 0 0"/>-->
+        <!--[> Full height: (3.1320833333333333e-06, 2.481041666666667e-06, 1.6927083333333333e-06) <]-->
+        <!--[> Half height: (2.253177083333333e-06, 2.481041666666667e-06, 8.138020833333333e-07) <]-->
+        <!--<inertia ixx="2.253e-6" ixy="0.0" ixz="0.0"-->
+          <!--iyy="2.481e-6" iyz="0.0"-->
+          <!--izz="8.138e-7"/>-->
+      <!--</inertial>-->
 
       <visual>
         <origin xyz="0 0 0" rpy="${M_PI/2} 0 0"/>
@@ -269,12 +311,19 @@
 
     <link name="${name}_link">
       <inertial>
-        <mass value="0.005"/>
-        <origin xyz="0.0 0.0 0.0045" rpy="0 0 0"/>
-        <inertia ixx="6.354e-7" ixy="0.0" ixz="0.0"
-          iyy="8.621e-7" iyz="0.0"
-          izz="2.942e-7"/>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0"
+          iyy="1" iyz="0.0"
+          izz="1"/>
       </inertial>
+      <!--<inertial>-->
+        <!--<mass value="0.005"/>-->
+        <!--<origin xyz="0.0 0.0 0.0045" rpy="0 0 0"/>-->
+        <!--<inertia ixx="6.354e-7" ixy="0.0" ixz="0.0"-->
+          <!--iyy="8.621e-7" iyz="0.0"-->
+          <!--izz="2.942e-7"/>-->
+      <!--</inertial>-->
 
       <visual>
         <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI}"/>
@@ -304,14 +353,21 @@
 
     <link name="${name}_link">
       <inertial>
-        <mass value="0.015"/>
-        <origin xyz="0 0 -${F4_AXLE_HEIGHT-F4_HEIGHT/2+0.0015}" rpy="0 0 0"/>
-        <!-- Full height: (8.2215625e-06, 3.9203124999999996e-06, 6.2612499999999996e-06) -->
-        <!-- Half height: (4.2606249999999995e-06, 3.9203124999999996e-06, 2.3003125e-06) -->
-        <inertia ixx="4.261e-6" ixy="0.0" ixz="0.0"
-          iyy="3.921e-6" iyz="0.0"
-          izz="2.3e-6"/>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0"
+          iyy="1" iyz="0.0"
+          izz="1"/>
       </inertial>
+      <!--<inertial>-->
+        <!--<mass value="0.015"/>-->
+        <!--<origin xyz="0 0 -${F4_AXLE_HEIGHT-F4_HEIGHT/2+0.0015}" rpy="0 0 0"/>-->
+        <!--[> Full height: (8.2215625e-06, 3.9203124999999996e-06, 6.2612499999999996e-06) <]-->
+        <!--[> Half height: (4.2606249999999995e-06, 3.9203124999999996e-06, 2.3003125e-06) <]-->
+        <!--<inertia ixx="4.261e-6" ixy="0.0" ixz="0.0"-->
+          <!--iyy="3.921e-6" iyz="0.0"-->
+          <!--izz="2.3e-6"/>-->
+      <!--</inertial>-->
 
       <visual>
         <origin xyz="0 0 0" rpy="${M_PI/2} 0 0"/>
@@ -341,12 +397,19 @@
 
     <link name="${name}_link">
       <inertial>
-        <mass value="0.02"/>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <inertia ixx="1.612e-5" ixy="0.0" ixz="0.0"
-          iyy="1.823e-5" iyz="0.0"
-          izz="2.732e-6"/>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0"
+          iyy="1" iyz="0.0"
+          izz="1"/>
       </inertial>
+      <!--<inertial>-->
+        <!--<mass value="0.02"/>-->
+        <!--<origin xyz="0 0 0" rpy="0 0 0"/>-->
+        <!--<inertia ixx="1.612e-5" ixy="0.0" ixz="0.0"-->
+          <!--iyy="1.823e-5" iyz="0.0"-->
+          <!--izz="2.732e-6"/>-->
+      <!--</inertial>-->
 
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -374,12 +437,19 @@
 
     <link name="${name}_link">
       <inertial>
-        <mass value="0.02"/>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <inertia ixx="2.01e-5" ixy="0.0" ixz="0.0"
-          iyy="2.2e-5" iyz="0.0"
-          izz="2.936e-6"/>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0.0005" rpy="0 0 0"/>
+        <inertia ixx="1" ixy="0.0" ixz="0.0"
+          iyy="1" iyz="0.0"
+          izz="1"/>
       </inertial>
+      <!--<inertial>-->
+        <!--<mass value="0.02"/>-->
+        <!--<origin xyz="0 0 0" rpy="0 0 0"/>-->
+        <!--<inertia ixx="2.01e-5" ixy="0.0" ixz="0.0"-->
+          <!--iyy="2.2e-5" iyz="0.0"-->
+          <!--izz="2.936e-6"/>-->
+      <!--</inertial>-->
 
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
