@@ -1,0 +1,28 @@
+<launch>
+  <rosparam
+      file="$(find crane_plus_simulation)/config/crane_plus_controller.yaml"
+      command="load"
+      />
+  <param
+      name="robot_description"
+      textfile="$(find crane_plus_simulation)/urdf/simulated_crane_plus.urdf"
+      />
+  <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+  <node
+      name="spawn_urdf"
+      pkg="gazebo_ros"
+      type="spawn_model"
+      args="-param robot_description -urdf -model crane_plus"
+      />
+  <node
+      name="robot_state_publisher"
+      pkg="robot_state_publisher"
+      type="robot_state_publisher"
+      />
+  <node
+      name="controller_spawner"
+      pkg="controller_manager"
+      type="spawner"
+      args="arm_controller"
+      />
+</launch>

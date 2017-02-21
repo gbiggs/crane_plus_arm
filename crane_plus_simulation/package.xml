@@ -1,0 +1,21 @@
+<package>
+  <name>crane_plus_simulation</name>
+  <version>0.1.0</version>
+  <description>
+   crane_plus_simulation contains launch and URDF files for running the the
+   Crane+ manipulator in a simulation.
+  </description>
+  <author>Geoffrey Biggs</author>
+  <maintainer email="geoffrey.biggs@aist.go.jp">Geoffrey Biggs</maintainer>
+  <license>BSD</license>
+
+  <!--<url type="website">http://ros.org/wiki/turtlebot_arm_description</url>
+  <url type="repository">https://github.com/turtlebot/turtlebot_arm</url>
+  <url type="bugtracker">https://github.com/turtlebot/turtlebot_arm/issues</url>-->
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+  <run_depend>crane_plus_description</run_depend>
+</package>
