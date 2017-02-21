@@ -5,7 +5,7 @@
       />
   <param
       name="robot_description"
-      textfile="$(find crane_plus_simulation)/urdf/simulated_crane_plus.urdf"
+      command="$(find xacro)/xacro.py '$(find crane_plus_simulation)/urdf/simulated_crane_plus.urdf.xacro'"
       />
   <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
   <node
