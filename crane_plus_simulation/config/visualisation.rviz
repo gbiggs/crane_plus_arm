@@ -83,7 +83,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        crane_plus_lower_arm_bracket_link:
+        lower_arm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -103,7 +103,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        crane_plus_moving_finger_bracket_link:
+        gripper_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -113,7 +113,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        crane_plus_shoulder_bracket_rev_link:
+        shoulder_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -128,7 +128,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        crane_plus_upper_arm_servo_link:
+        upper_arm_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -138,7 +138,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        crane_plus_wrist_bracket_link:
+        wrist_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -178,7 +178,7 @@ Visualization Manager:
           Value: true
         crane_plus_gripper_servo_link:
           Value: true
-        crane_plus_lower_arm_bracket_link:
+        lower_arm_link:
           Value: true
         crane_plus_lower_arm_joiner_link:
           Value: true
@@ -186,21 +186,21 @@ Visualization Manager:
           Value: true
         crane_plus_mounting_plate_link:
           Value: true
-        crane_plus_moving_finger_bracket_link:
+        gripper_link:
           Value: true
         crane_plus_moving_finger_link:
           Value: true
-        crane_plus_shoulder_bracket_rev_link:
+        shoulder_link:
           Value: true
         crane_plus_shoulder_servo_link:
           Value: true
         crane_plus_upper_arm_lower_joiner_link:
           Value: true
-        crane_plus_upper_arm_servo_link:
+        upper_arm_link:
           Value: true
         crane_plus_upper_arm_upper_joiner_link:
           Value: true
-        crane_plus_wrist_bracket_link:
+        wrist_link:
           Value: true
         crane_plus_wrist_joiner_link:
           Value: true
@@ -219,21 +219,21 @@ Visualization Manager:
             crane_plus_mounting_plate_link:
               crane_plus_base_bracket_link:
                 crane_plus_shoulder_servo_link:
-                  crane_plus_shoulder_bracket_rev_link:
-                    crane_plus_upper_arm_servo_link:
+                  shoulder_link:
+                    upper_arm_link:
                       crane_plus_upper_arm_upper_joiner_link:
                         crane_plus_upper_arm_lower_joiner_link:
                           crane_plus_lower_arm_servo_link:
-                            crane_plus_lower_arm_bracket_link:
+                            lower_arm_link:
                               crane_plus_lower_arm_joiner_link:
                                 crane_plus_wrist_servo_link:
-                                  crane_plus_wrist_bracket_link:
+                                  wrist_link:
                                     crane_plus_wrist_joiner_link:
                                       crane_plus_gripper_servo_link:
                                         crane_plus_fixed_finger_joiner_link:
                                           crane_plus_fixed_finger_link:
                                             {}
-                                        crane_plus_moving_finger_bracket_link:
+                                        gripper_link:
                                           crane_plus_moving_finger_link:
                                             {}
       Update Interval: 0

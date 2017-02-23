@@ -1,7 +1,7 @@
-arm_controller:
+crane_plus_controller:
     type: "position_controllers/JointTrajectoryController"
     joints:
-      - crane_plus_shoulder_bracket_rev_joint
-      - crane_plus_upper_arm_servo_joint
-      - crane_plus_lower_arm_bracket_joint
-      - crane_plus_wrist_bracket_joint
+      - shoulder_joint
+      - upper_arm_joint
+      - lower_arm_joint
+      - wrist_joint
