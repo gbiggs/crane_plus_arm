@@ -1,10 +1,10 @@
 controller_manager_ns: /
 controller_list:
-  - name: arm_controller
+  - name: crane_plus_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     joints:
-      - crane_plus_shoulder_bracket_rev_joint
-      - crane_plus_upper_arm_servo_joint
-      - crane_plus_lower_arm_bracket_joint
-      - crane_plus_wrist_bracket_joint
+      - shoulder_joint
+      - upper_arm_joint
+      - lower_arm_joint
+      - wrist_joint

@@ -9,93 +9,98 @@
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
-    <group name="Arm">
-        <joint name="crane_plus_base_joint" />
-        <joint name="crane_plus_mounting_plate_joint" />
-        <joint name="crane_plus_base_bracket_joint" />
-        <joint name="crane_plus_shoulder_servo_joint" />
-        <joint name="crane_plus_shoulder_bracket_rev_joint" />
-        <joint name="crane_plus_upper_arm_servo_joint" />
-        <joint name="crane_plus_upper_arm_upper_joiner_joint" />
-        <joint name="crane_plus_upper_arm_lower_joiner_joint" />
-        <joint name="crane_plus_lower_arm_servo_joint" />
-        <joint name="crane_plus_lower_arm_bracket_joint" />
-        <joint name="crane_plus_lower_arm_joiner_joint" />
-        <joint name="crane_plus_wrist_servo_joint" />
-        <joint name="crane_plus_wrist_bracket_joint" />
-        <joint name="crane_plus_wrist_joiner_joint" />
-        <joint name="crane_plus_gripper_servo_joint" />
-        <joint name="crane_plus_fixed_finger_joiner_joint" />
-        <joint name="crane_plus_fixed_finger_joint" />
+    <group name="arm">
+        <chain base_link="crane_plus_base_link" tip_link="crane_plus_wrist_joiner_link" />
     </group>
+    <group name="gripper">
+        <link name="crane_plus_gripper_servo_link" />
+        <link name="crane_plus_fixed_finger_joiner_link" />
+        <link name="crane_plus_fixed_finger_link" />
+        <link name="gripper_link" />
+        <link name="crane_plus_moving_finger_link" />
+        <joint name="gripper_joint" />
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="verticle" group="arm">
+        <joint name="lower_arm_joint" value="0" />
+        <joint name="shoulder_joint" value="0" />
+        <joint name="upper_arm_joint" value="0" />
+        <joint name="wrist_joint" value="0" />
+    </group_state>
+    <group_state name="resting" group="arm">
+        <joint name="lower_arm_joint" value="0.6979" />
+        <joint name="shoulder_joint" value="0" />
+        <joint name="upper_arm_joint" value="1.4655" />
+        <joint name="wrist_joint" value="0.663" />
+    </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="Gripper" parent_link="crane_plus_fixed_finger_link" group="Arm" />
+    <end_effector name="gripper" parent_link="crane_plus_wrist_joiner_link" group="gripper" parent_group="arm" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="crane_plus_base_bracket_link" link2="crane_plus_mounting_plate_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_base_bracket_link" link2="crane_plus_shoulder_bracket_rev_link" reason="Never" />
     <disable_collisions link1="crane_plus_base_bracket_link" link2="crane_plus_shoulder_servo_link" reason="Adjacent" />
     <disable_collisions link1="crane_plus_base_bracket_link" link2="crane_plus_upper_arm_lower_joiner_link" reason="Never" />
-    <disable_collisions link1="crane_plus_base_bracket_link" link2="crane_plus_upper_arm_servo_link" reason="Never" />
     <disable_collisions link1="crane_plus_base_bracket_link" link2="crane_plus_upper_arm_upper_joiner_link" reason="Never" />
+    <disable_collisions link1="crane_plus_base_bracket_link" link2="shoulder_link" reason="Never" />
+    <disable_collisions link1="crane_plus_base_bracket_link" link2="upper_arm_link" reason="Never" />
     <disable_collisions link1="crane_plus_fixed_finger_joiner_link" link2="crane_plus_fixed_finger_link" reason="Adjacent" />
     <disable_collisions link1="crane_plus_fixed_finger_joiner_link" link2="crane_plus_gripper_servo_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_fixed_finger_joiner_link" link2="crane_plus_moving_finger_bracket_link" reason="Never" />
-    <disable_collisions link1="crane_plus_fixed_finger_joiner_link" link2="crane_plus_wrist_bracket_link" reason="Never" />
     <disable_collisions link1="crane_plus_fixed_finger_joiner_link" link2="crane_plus_wrist_joiner_link" reason="Never" />
+    <disable_collisions link1="crane_plus_fixed_finger_joiner_link" link2="gripper_link" reason="Never" />
+    <disable_collisions link1="crane_plus_fixed_finger_joiner_link" link2="wrist_link" reason="Never" />
     <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_gripper_servo_link" reason="Never" />
-    <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_lower_arm_bracket_link" reason="Never" />
     <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_lower_arm_joiner_link" reason="Never" />
     <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_lower_arm_servo_link" reason="Never" />
-    <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_moving_finger_bracket_link" reason="Never" />
-    <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_shoulder_bracket_rev_link" reason="Never" />
     <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_upper_arm_lower_joiner_link" reason="Never" />
-    <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_upper_arm_servo_link" reason="Never" />
     <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_upper_arm_upper_joiner_link" reason="Never" />
-    <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_wrist_bracket_link" reason="Never" />
     <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_wrist_joiner_link" reason="Never" />
     <disable_collisions link1="crane_plus_fixed_finger_link" link2="crane_plus_wrist_servo_link" reason="Never" />
-    <disable_collisions link1="crane_plus_gripper_servo_link" link2="crane_plus_moving_finger_bracket_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_gripper_servo_link" link2="crane_plus_wrist_bracket_link" reason="Never" />
+    <disable_collisions link1="crane_plus_fixed_finger_link" link2="gripper_link" reason="Never" />
+    <disable_collisions link1="crane_plus_fixed_finger_link" link2="lower_arm_link" reason="Never" />
+    <disable_collisions link1="crane_plus_fixed_finger_link" link2="shoulder_link" reason="Never" />
+    <disable_collisions link1="crane_plus_fixed_finger_link" link2="upper_arm_link" reason="Never" />
+    <disable_collisions link1="crane_plus_fixed_finger_link" link2="wrist_link" reason="Never" />
     <disable_collisions link1="crane_plus_gripper_servo_link" link2="crane_plus_wrist_joiner_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_lower_arm_bracket_link" link2="crane_plus_lower_arm_joiner_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_lower_arm_bracket_link" link2="crane_plus_lower_arm_servo_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_lower_arm_bracket_link" link2="crane_plus_shoulder_bracket_rev_link" reason="Never" />
-    <disable_collisions link1="crane_plus_lower_arm_bracket_link" link2="crane_plus_wrist_bracket_link" reason="Never" />
-    <disable_collisions link1="crane_plus_lower_arm_bracket_link" link2="crane_plus_wrist_servo_link" reason="Never" />
+    <disable_collisions link1="crane_plus_gripper_servo_link" link2="gripper_link" reason="Adjacent" />
+    <disable_collisions link1="crane_plus_gripper_servo_link" link2="wrist_link" reason="Never" />
     <disable_collisions link1="crane_plus_lower_arm_joiner_link" link2="crane_plus_lower_arm_servo_link" reason="Never" />
-    <disable_collisions link1="crane_plus_lower_arm_joiner_link" link2="crane_plus_shoulder_bracket_rev_link" reason="Never" />
     <disable_collisions link1="crane_plus_lower_arm_joiner_link" link2="crane_plus_upper_arm_lower_joiner_link" reason="Never" />
     <disable_collisions link1="crane_plus_lower_arm_joiner_link" link2="crane_plus_upper_arm_upper_joiner_link" reason="Never" />
-    <disable_collisions link1="crane_plus_lower_arm_joiner_link" link2="crane_plus_wrist_bracket_link" reason="Never" />
     <disable_collisions link1="crane_plus_lower_arm_joiner_link" link2="crane_plus_wrist_servo_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="crane_plus_shoulder_bracket_rev_link" reason="Never" />
+    <disable_collisions link1="crane_plus_lower_arm_joiner_link" link2="lower_arm_link" reason="Adjacent" />
+    <disable_collisions link1="crane_plus_lower_arm_joiner_link" link2="shoulder_link" reason="Never" />
+    <disable_collisions link1="crane_plus_lower_arm_joiner_link" link2="wrist_link" reason="Never" />
     <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="crane_plus_upper_arm_lower_joiner_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="crane_plus_upper_arm_servo_link" reason="Never" />
     <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="crane_plus_upper_arm_upper_joiner_link" reason="Never" />
-    <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="crane_plus_wrist_bracket_link" reason="Never" />
     <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="crane_plus_wrist_joiner_link" reason="Never" />
     <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="crane_plus_wrist_servo_link" reason="Never" />
-    <disable_collisions link1="crane_plus_mounting_plate_link" link2="crane_plus_shoulder_bracket_rev_link" reason="Never" />
+    <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="lower_arm_link" reason="Adjacent" />
+    <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="shoulder_link" reason="Never" />
+    <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="upper_arm_link" reason="Never" />
+    <disable_collisions link1="crane_plus_lower_arm_servo_link" link2="wrist_link" reason="Never" />
     <disable_collisions link1="crane_plus_mounting_plate_link" link2="crane_plus_shoulder_servo_link" reason="Never" />
     <disable_collisions link1="crane_plus_mounting_plate_link" link2="crane_plus_upper_arm_lower_joiner_link" reason="Never" />
-    <disable_collisions link1="crane_plus_mounting_plate_link" link2="crane_plus_upper_arm_servo_link" reason="Never" />
     <disable_collisions link1="crane_plus_mounting_plate_link" link2="crane_plus_upper_arm_upper_joiner_link" reason="Never" />
-    <disable_collisions link1="crane_plus_moving_finger_bracket_link" link2="crane_plus_moving_finger_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_moving_finger_bracket_link" link2="crane_plus_wrist_joiner_link" reason="Default" />
-    <disable_collisions link1="crane_plus_shoulder_bracket_rev_link" link2="crane_plus_shoulder_servo_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_shoulder_bracket_rev_link" link2="crane_plus_upper_arm_lower_joiner_link" reason="Never" />
-    <disable_collisions link1="crane_plus_shoulder_bracket_rev_link" link2="crane_plus_upper_arm_servo_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_shoulder_bracket_rev_link" link2="crane_plus_upper_arm_upper_joiner_link" reason="Never" />
-    <disable_collisions link1="crane_plus_upper_arm_lower_joiner_link" link2="crane_plus_upper_arm_servo_link" reason="Never" />
+    <disable_collisions link1="crane_plus_mounting_plate_link" link2="shoulder_link" reason="Never" />
+    <disable_collisions link1="crane_plus_mounting_plate_link" link2="upper_arm_link" reason="Never" />
+    <disable_collisions link1="crane_plus_moving_finger_link" link2="gripper_link" reason="Adjacent" />
+    <disable_collisions link1="crane_plus_shoulder_servo_link" link2="shoulder_link" reason="Adjacent" />
     <disable_collisions link1="crane_plus_upper_arm_lower_joiner_link" link2="crane_plus_upper_arm_upper_joiner_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_upper_arm_lower_joiner_link" link2="crane_plus_wrist_bracket_link" reason="Never" />
     <disable_collisions link1="crane_plus_upper_arm_lower_joiner_link" link2="crane_plus_wrist_joiner_link" reason="Never" />
     <disable_collisions link1="crane_plus_upper_arm_lower_joiner_link" link2="crane_plus_wrist_servo_link" reason="Never" />
-    <disable_collisions link1="crane_plus_upper_arm_servo_link" link2="crane_plus_upper_arm_upper_joiner_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_upper_arm_servo_link" link2="crane_plus_wrist_bracket_link" reason="Never" />
-    <disable_collisions link1="crane_plus_upper_arm_upper_joiner_link" link2="crane_plus_wrist_bracket_link" reason="Never" />
+    <disable_collisions link1="crane_plus_upper_arm_lower_joiner_link" link2="shoulder_link" reason="Never" />
+    <disable_collisions link1="crane_plus_upper_arm_lower_joiner_link" link2="upper_arm_link" reason="Never" />
+    <disable_collisions link1="crane_plus_upper_arm_lower_joiner_link" link2="wrist_link" reason="Never" />
     <disable_collisions link1="crane_plus_upper_arm_upper_joiner_link" link2="crane_plus_wrist_joiner_link" reason="Never" />
     <disable_collisions link1="crane_plus_upper_arm_upper_joiner_link" link2="crane_plus_wrist_servo_link" reason="Never" />
-    <disable_collisions link1="crane_plus_wrist_bracket_link" link2="crane_plus_wrist_joiner_link" reason="Adjacent" />
-    <disable_collisions link1="crane_plus_wrist_bracket_link" link2="crane_plus_wrist_servo_link" reason="Adjacent" />
+    <disable_collisions link1="crane_plus_upper_arm_upper_joiner_link" link2="shoulder_link" reason="Never" />
+    <disable_collisions link1="crane_plus_upper_arm_upper_joiner_link" link2="upper_arm_link" reason="Adjacent" />
+    <disable_collisions link1="crane_plus_upper_arm_upper_joiner_link" link2="wrist_link" reason="Never" />
+    <disable_collisions link1="crane_plus_wrist_joiner_link" link2="gripper_link" reason="Default" />
+    <disable_collisions link1="crane_plus_wrist_joiner_link" link2="wrist_link" reason="Adjacent" />
+    <disable_collisions link1="crane_plus_wrist_servo_link" link2="lower_arm_link" reason="Never" />
+    <disable_collisions link1="crane_plus_wrist_servo_link" link2="wrist_link" reason="Adjacent" />
+    <disable_collisions link1="lower_arm_link" link2="shoulder_link" reason="Never" />
+    <disable_collisions link1="lower_arm_link" link2="wrist_link" reason="Never" />
+    <disable_collisions link1="shoulder_link" link2="upper_arm_link" reason="Adjacent" />
+    <disable_collisions link1="upper_arm_link" link2="wrist_link" reason="Never" />
 </robot>

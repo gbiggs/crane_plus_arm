@@ -1,7 +1,8 @@
 <launch>
   <param
-      name="moveit_controller_manager"
-      value="moveit_simple_controller_manager/MoveItSimpleControllerManager"/>
+    name="moveit_controller_manager"
+    value="moveit_simple_controller_manager/MoveItSimpleControllerManager"
+    />
   <param name="controller_manager_name" value="/"/>
   <param name="use_controller_manager" value="true"/>
   <rosparam file="$(find crane_plus_moveit_config)/config/controller.yaml"/>
