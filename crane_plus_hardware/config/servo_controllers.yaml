@@ -1,0 +1,60 @@
+shoulder_servo_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: shoulder_joint
+  joint_speed: 1.17
+  motor:
+    id: 1
+    init: 512
+    min: 0
+    max: 1023
+upper_arm_servo_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: upper_arm_joint
+  joint_speed: 1.17
+  motor:
+    id: 2
+    init: 512
+    min: 0
+    max: 1023
+lower_arm_servo_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: lower_arm_joint
+  joint_speed: 1.17
+  motor:
+    id: 3
+    init: 512
+    min: 0
+    max: 1023
+wrist_servo_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: wrist_joint
+  joint_speed: 1.17
+  motor:
+    id: 4
+    init: 512
+    min: 0
+    max: 1023
+gripper_servo_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: gripper_joint
+  joint_speed: 1.17
+  motor:
+    id: 5
+    init: 512
+    min: 0
+    max: 1023

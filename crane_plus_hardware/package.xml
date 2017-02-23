@@ -1,0 +1,20 @@
+<package>
+  <name>crane_plus_hardware</name>
+  <version>0.1.0</version>
+  <description>
+   crane_plus_hardware contains launch and configuration files for running the
+   Crane+ manipulator hardware.
+  </description>
+  <author>Geoffrey Biggs</author>
+  <maintainer email="geoffrey.biggs@aist.go.jp">Geoffrey Biggs</maintainer>
+  <license>BSD</license>
+
+  <!--<url type="website">http://ros.org/wiki/turtlebot_arm_description</url>
+  <url type="repository">https://github.com/turtlebot/turtlebot_arm</url>
+  <url type="bugtracker">https://github.com/turtlebot/turtlebot_arm/issues</url>-->
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>crane_plus_description</run_depend>
+  <run_depend>dynamixel_controllers</run_depend>
+</package>

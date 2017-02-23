@@ -1,0 +1,68 @@
+<launch>
+  <!-- The robot description, used by many of the control nodes -->
+  <param name="robot_description"
+    command="$(find xacro)/xacro.py '$(find crane_plus_simulation)/urdf/simulated_crane_plus.urdf.xacro'"
+    />
+
+  <!-- Launch the Dynamixel controller manager to talk to the servos -->
+  <node name="dynamixel_manager"
+    pkg="dynamixel_controllers"
+    type="controller_manager.py"
+    required="true"
+    output="screen"
+    >
+    <rosparam
+      file="$(find crane_plus_hardware)/config/controller_manager.yaml"
+      command="load"
+      />
+  </node>
+
+  <!-- Start the individual servo controllers -->
+  <rosparam file="$(find crane_plus_hardware)/config/servo_controllers.yaml"
+    command="load"
+    />
+  <node name="servo_controller_spawner"
+    pkg="dynamixel_controllers"
+    type="controller_spawner.py"
+    args="--manager=dynamixel_controller_manager
+          --port dxl_tty1
+          shoulder_servo_controller
+          upper_arm_servo_controller
+          lower_arm_servo_controller
+          wrist_servo_controller
+          gripper_servo_controller"
+    output="screen"
+    />
+
+  <!-- Start the joint trajectory controller -->
+  <rosparam file="$(find crane_plus_hardware)/config/joints_trajectory_controller.yaml"
+    command="load"
+    />
+  <node name="joint_trajectory_controller_spawner"
+    pkg="dynamixel_controllers"
+    type="controller_spawner.py"
+    args="--manager=dynamixel_controller_manager
+          --type=meta
+          crane_plus_controller
+          shoulder_servo_controller
+          upper_arm_servo_controller
+          lower_arm_servo_controller
+          wrist_servo_controller"
+    output="screen"
+    />
+
+  <!-- Nodes to produce TF information -->
+  <node name="crane_plus_joint_state_publisher"
+    pkg="crane_plus_joint_state_publisher"
+    type="crane_plus_joint_state_publisher.py"
+    >
+    <rosparam
+      file="$(find crane_plus_joint_state_publisher)/config/servo_controller_names.yaml"
+      command="load"
+      />
+  </node>
+  <node name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="robot_state_publisher"
+    />
+</launch>
