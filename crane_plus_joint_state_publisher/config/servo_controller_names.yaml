@@ -1,0 +1,6 @@
+servo_controller_names:
+  - shoulder_servo_controller
+  - upper_arm_servo_controller
+  - lower_arm_servo_controller
+  - wrist_servo_controller
+  - gripper_servo_controller

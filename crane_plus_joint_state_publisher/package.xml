@@ -1,0 +1,21 @@
+<package>
+  <name>crane_plus_joint_state_publisher</name>
+  <version>0.1.0</version>
+  <description>
+    Contains a node that reads from a configured list of Dynamixel motor state
+    topics and publishes the information as `sensor_msgs/JointState` messages.
+  </description>
+  <author>Geoffrey Biggs</author>
+  <maintainer email="geoffrey.biggs@aist.go.jp">Geoffrey Biggs</maintainer>
+  <license>BSD</license>
+
+  <!--<url type="website">http://ros.org/wiki/turtlebot_arm_description</url>
+  <url type="repository">https://github.com/turtlebot/turtlebot_arm</url>
+  <url type="bugtracker">https://github.com/turtlebot/turtlebot_arm/issues</url>-->
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>rospy</run_depend>
+  <run_depend>dynamixel_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+</package>
