@@ -7,4 +7,4 @@ moveit_setup_assistant_config:
   CONFIG:
     author_name: Geoffrey Biggs
     author_email: geoffrey.biggs@aist.go.jp
-    generated_timestamp: 1487741035
+    generated_timestamp: 1487913409

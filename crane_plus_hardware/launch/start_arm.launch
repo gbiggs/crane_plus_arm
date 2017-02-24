@@ -34,7 +34,7 @@
     output="screen"
     />
 
-  <!-- Start the joint trajectory controller -->
+  <!-- Start the joint trajectory controller for the arm -->
   <rosparam file="$(find crane_plus_hardware)/config/joints_trajectory_controller.yaml"
     command="load"
     />
@@ -43,7 +43,7 @@
     type="controller_spawner.py"
     args="--manager=dynamixel_controller_manager
           --type=meta
-          crane_plus_controller
+          crane_plus_arm_controller
           shoulder_servo_controller
           upper_arm_servo_controller
           lower_arm_servo_controller

@@ -1,7 +1,0 @@
-crane_plus_controller:
-    type: "position_controllers/JointTrajectoryController"
-    joints:
-      - shoulder_joint
-      - upper_arm_joint
-      - lower_arm_joint
-      - wrist_joint

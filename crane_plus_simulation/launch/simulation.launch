@@ -1,6 +1,6 @@
 <launch>
   <rosparam
-    file="$(find crane_plus_simulation)/config/crane_plus_controller.yaml"
+    file="$(find crane_plus_simulation)/config/crane_plus_arm_controller.yaml"
     command="load"
     />
   <param
@@ -23,6 +23,6 @@
     name="controller_spawner"
     pkg="controller_manager"
     type="spawner"
-    args="crane_plus_controller"
+    args="crane_plus_arm_controller"
     />
 </launch>

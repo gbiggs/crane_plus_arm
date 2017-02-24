@@ -1,10 +1,17 @@
 controller_manager_ns: /
 controller_list:
-  - name: crane_plus_controller
+  - name: crane_plus_arm_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
+    default: true
     joints:
       - shoulder_joint
       - upper_arm_joint
       - lower_arm_joint
       - wrist_joint
+  - name: crane_plus_gripper_controller
+    action_ns: gripper_action
+    type: GripperCommand
+    default: true
+    joints:
+      - gripper_joint

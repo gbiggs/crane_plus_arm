@@ -20,8 +20,8 @@ upper_arm_servo_controller:
   motor:
     id: 2
     init: 512
-    min: 0
-    max: 1023
+    min: 178
+    max: 844
 lower_arm_servo_controller:
   controller:
     package: dynamixel_controllers
@@ -32,8 +32,8 @@ lower_arm_servo_controller:
   motor:
     id: 3
     init: 512
-    min: 0
-    max: 1023
+    min: 58
+    max: 962
 wrist_servo_controller:
   controller:
     package: dynamixel_controllers
@@ -44,8 +44,8 @@ wrist_servo_controller:
   motor:
     id: 4
     init: 512
-    min: 0
-    max: 1023
+    min: 178
+    max: 844
 gripper_servo_controller:
   controller:
     package: dynamixel_controllers
@@ -56,5 +56,5 @@ gripper_servo_controller:
   motor:
     id: 5
     init: 512
-    min: 0
-    max: 1023
+    min: 394
+    max: 639
