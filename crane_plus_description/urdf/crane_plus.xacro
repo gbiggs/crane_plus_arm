@@ -175,12 +175,12 @@
         name="gripper"
         color="grey"
         vlimit="${joints_vlimit}"
-        llimit="0.6"
+        llimit="-0.6"
         ulimit="0.65">
         <origin xyz="-${AX12_ORIGIN_TO_AXLE} 0 0" rpy="-${M_PI/2} 0 -${M_PI/2}"/>
     </bioloid_f2_revolute>
 
-    <!-- Movin finger -->
+    <!-- Moving finger -->
     <moving_finger
         parent="gripper_link"
         name="crane_plus_moving_finger"
