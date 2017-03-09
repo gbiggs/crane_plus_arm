@@ -15,12 +15,14 @@ from std_msgs.msg import Float64
 
 def goal_achieved(current, goal, delta):
     """Return True if the value of current is within delta of goal."""
-    print('Goal check: current {} goal {} delta {}'.format(current, goal,
-        delta))
-    if abs(goal - current) <= delta:
-        print('Returning true')
-        return True
-    return False
+    diff = abs(goal - current)
+    reached = False
+    if diff <= delta:
+        reached = True
+    rospy.logdebug('Goal reach check:\n\tCurrent position: {}\n\tGoal: '
+                   '{}\n\tDifference: {}\n\tDelta {}\n\tReached: '
+                   '{}'.format(current, goal, diff, delta, reached))
+    return reached
 
 
 class GripperActionServer:
@@ -31,7 +33,8 @@ class GripperActionServer:
                  movement_radius,
                  closed_angle,
                  timeout,
-                 delta):
+                 delta,
+                 overload_limit):
         """Initialise the gripper action server.
 
         Args:
@@ -52,12 +55,25 @@ class GripperActionServer:
                 the goal position.
             delta (float): The allowable error in the gripper's position, in
                 metres.
+            overload_limit (float): The maximum current to allow the servo to
+                draw; when this is exceeded, the gripper is assumed to have
+                stalled due to a blockage and the servo is commanded to its
+                current position to stop it moving.
 
         """
         self._movement_radius = movement_radius
         self._closed_angle = closed_angle
         self._timeout = timeout
         self._delta = delta
+        self._overload = overload_limit
+
+        rospy.loginfo(
+            'CRANE+ gripper action server configuration:\n' +
+            '\tMovement radius: {} m\n'.format(self._movement_radius) +
+            '\tClosed angle: {} rad\n'.format(self._closed_angle) +
+            '\tMovement timeout: {} s\n'.format(self._timeout) +
+            '\tPosition error delta: {} m\n'.format(self._delta) +
+            '\tOverload limit: {} A'.format(self._overload))
 
         self._as = actionlib.SimpleActionServer('crane_plus_gripper',
                                                 GripperCommandAction,
@@ -76,33 +92,36 @@ class GripperActionServer:
         self._last_state = None
 
         self._as.start()
+        rospy.loginfo('Gripper action server waiting for goals')
 
-    def _last_state_as_result(self):
-        result = GripperCommandResult()
-        result.position = self.angle_to_width(self._last_state.current_pos)
-        result.effort = self._last_state.load
-        if goal_achieved(self._last_state.current_pos,
-                         self._last_state.goal_pos,
-                         self._delta):
-            result.stalled = False
-            result.reached_goal = True
+    def _state_to_msg(self, state, msg):
+        msg.position = self.angle_to_width(state.current_pos)
+        msg.effort = state.load
+        if goal_achieved(
+                self.angle_to_width(state.current_pos),
+                self._goal.command.position,
+                self._delta) and \
+           not state.is_moving:
+            msg.stalled = False
+            msg.reached_goal = True
         else:
-            result.stalled = True if self._last_state.velocity == 0 else False
-            result.reached_goal = False
+            msg.stalled = not state.is_moving
+            msg.reached_goal = False
+        return msg
 
     def _handle_command(self):
         self._timer = rospy.Timer(rospy.Duration(self._timeout),
                                   self._timed_out,
                                   oneshot=True)
 
-        goal = self._as.accept_new_goal()
+        self._goal = self._as.accept_new_goal()
         if self._as.is_preempt_requested():
             self._handle_preempt()
             return
         # Calculate the servo angle for the desired position
-        goal_angle = self.width_to_angle(goal.command.position)
-        rospy.loginfo('Gripper command to {} mm; setting servo to {} '
-                      'rad'.format(goal.command.position, goal_angle))
+        goal_angle = self.width_to_angle(self._goal.command.position)
+        rospy.loginfo('Gripper commanded to {} m; setting servo to {} '
+                      'rad'.format(self._goal.command.position, goal_angle))
         # Start the gripper servo moving to the goal position
         self._command_pub.publish(goal_angle)
 
@@ -111,37 +130,59 @@ class GripperActionServer:
             self._timer.shutdown()
             self._timer = None
         rospy.loginfo('Gripper movement preempted')
-        self._as.set_preempted(result=self._last_state_as_result())
+        if not self._last_state:
+            self._last_state = JointState()
+        result = GripperCommandResult()
+        self._as.set_preempted(
+            result=self._state_to_msg(self._last_state, result),
+            text='Preempted')
 
     def _timed_out(self, te):
-        rospy.loginfo('Gripper movement timed out ({})'.format(te))
+        rospy.loginfo('Gripper movement timed out')
+        self._timer = None
+        if not self._last_state:
+            self._last_state = JointState()
         result = GripperCommandResult()
-        result.position = self._feedback.position
-        result.effort = self._feedback.effort
-        self._as.set_aborted(result=self._last_state_as_result(),
-                             text='Timed out')
+        self._as.set_aborted(
+            result=self._state_to_msg(self._last_state, result),
+            text='Timed out')
 
     def _state_update(self, state):
         if not self._as.is_active():
             return
-        rospy.loginfo('Got servo state update:\n{}'.format(state))
+        rospy.logdebug('Got servo state update:\n{}'.format(state))
         self._last_state = state
         feedback = GripperCommandFeedback()
-        feedback.position = self.angle_to_width(state.current_pos)
-        feedback.effort = state.load
-        if goal_achieved(state.current_pos, state.goal_pos, self._delta):
-            feedback.stalled = False
-            feedback.reached_goal = True
-        else:
-            feedback.stalled = True if state.velocity == 0 else False
-            feedback.reached_goal = False
+        self._state_to_msg(state, feedback)
         self._as.publish_feedback(feedback)
         if feedback.reached_goal:
+            rospy.loginfo('Determined from state update that gripper goal has '
+                          'been reached')
             if self._timer:
                 self._timer.shutdown()
                 self._timer = None
-            self._as.set_succeeded(result=self._last_state_as_result(),
-                                   text='Reached goal')
+            result = GripperCommandResult()
+            self._as.set_succeeded(
+                result=self._state_to_msg(state, result), text='Reached goal')
+        elif feedback.stalled:
+            rospy.loginfo('Determined from state update that gripper has '
+                          'stalled')
+            if self._timer:
+                self._timer.shutdown()
+                self._timer = None
+            result = GripperCommandResult()
+            self._as.set_aborted(
+                result=self._state_to_msg(state, result), text='Stalled')
+        elif abs(state.load) > self._overload:
+            rospy.loginfo('Determined from state update that gripper is '
+                          'blocked (overload protection)')
+            if self._timer:
+                self._timer.shutdown()
+                self._timer = None
+            self._command_pub.publish(state.current_pos)
+            result = GripperCommandResult()
+            self._as.set_aborted(
+                result=self._state_to_msg(state, result), text='Blocked')
 
     def width_to_angle(self, width):
         """Calculate the angle to achieve a distance between the fingers."""
@@ -168,31 +209,36 @@ class GripperActionServer:
 def main():
     """Main function."""
     rospy.init_node('crane_plus_gripper')
-    servo_name = rospy.get_param(rosgraph.names.ns_join(rospy.get_name(),
-                                                        'servo_name'),
-                                 'gripper_servo_controller')
+    servo_name = rospy.get_param(
+        rosgraph.names.ns_join(rospy.get_name(), 'servo_name'),
+        'gripper_servo_controller')
     # The radius of the circle drawn by the moving finger's tip is 93 mm
-    movement_radius = rospy.get_param(rosgraph.names.ns_join(rospy.get_name(),
-                                                             'movement_radius'),
-                                      0.093)
+    movement_radius = rospy.get_param(
+        rosgraph.names.ns_join(rospy.get_name(), 'movement_radius'),
+        0.093)
     # The angle where the gripper is fully closed is 0.65 rad
-    closed_angle = rospy.get_param(rosgraph.names.ns_join(rospy.get_name(),
-                                                          'servo_closed_angle'),
-                                   0.65)
-    # Default timeout of 10 seconds
-    timeout = rospy.get_param(rosgraph.names.ns_join(rospy.get_name(),
-                                                     'timeout'),
-                              10)
+    closed_angle = rospy.get_param(
+        rosgraph.names.ns_join(rospy.get_name(), 'servo_closed_angle'),
+        0.65)
+    # Default timeout of 5 seconds
+    timeout = rospy.get_param(
+        rosgraph.names.ns_join(rospy.get_name(), 'timeout'),
+        5)
     # Default error delta of 1 mm
-    delta = rospy.get_param(rosgraph.names.ns_join(rospy.get_name(),
-                                                   'delta'),
-                            0.001)
+    delta = rospy.get_param(
+        rosgraph.names.ns_join(rospy.get_name(), 'delta'),
+        0.001)
+    # Overload protection limit
+    overload_limit = rospy.get_param(
+        rosgraph.names.ns_join(rospy.get_name(), 'overload_limit'),
+        0.9)
 
     server = GripperActionServer(servo_name,
                                  movement_radius,
                                  closed_angle,
                                  timeout,
-                                 delta)
+                                 delta,
+                                 overload_limit)
     rospy.spin()
     return 0
 
