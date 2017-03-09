@@ -1,4 +1,4 @@
-crane_plus_arm_controller:
+crane_plus_arm:
   type: "position_controllers/JointTrajectoryController"
   joints:
     - shoulder_joint

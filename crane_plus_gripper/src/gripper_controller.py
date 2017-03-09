@@ -79,9 +79,10 @@ class GripperActionServer:
             '\tPosition error delta: {} m\n'.format(self._delta) +
             '\tOverload limit: {} A'.format(self._overload))
 
-        self._as = actionlib.SimpleActionServer('crane_plus_gripper',
-                                                GripperCommandAction,
-                                                auto_start=False)
+        self._as = actionlib.SimpleActionServer(
+            rosgraph.names.ns_join(rospy.get_name(), 'gripper_command'),
+            GripperCommandAction,
+            auto_start=False)
         self._as.register_goal_callback(self._handle_command)
         self._as.register_preempt_callback(self._handle_preempt)
 

@@ -43,11 +43,18 @@
     type="controller_spawner.py"
     args="--manager=dynamixel_controller_manager
           --type=meta
-          crane_plus_arm_controller
+          crane_plus_arm
           shoulder_servo_controller
           upper_arm_servo_controller
           lower_arm_servo_controller
           wrist_servo_controller"
+    output="screen"
+    />
+
+  <!-- Start the gripper command handler -->
+  <node name="crane_plus_gripper"
+    pkg="crane_plus_gripper"
+    type="gripper_controller.py"
     output="screen"
     />
 
