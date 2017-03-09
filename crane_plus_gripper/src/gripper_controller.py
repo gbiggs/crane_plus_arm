@@ -2,7 +2,6 @@
 
 """Controller node for the CRANE+ gripper."""
 
-from math import asin, sin
 import sys
 
 import rospy
@@ -32,6 +31,7 @@ class GripperActionServer:
                  servo_name,
                  movement_radius,
                  closed_angle,
+                 open_angle,
                  timeout,
                  delta,
                  overload_limit):
@@ -51,6 +51,8 @@ class GripperActionServer:
                 is commanded to move to when the gripper is fully closed. This
                 is required to shift between the absolute angle of the finger
                 and the servo's coordinate frame.
+            open_angle (float): The angle in radians that the gripper servo
+                is commanded to move to when the gripper is fully open.
             timeout (float): The maximum time to wait for the gripper to reach
                 the goal position.
             delta (float): The allowable error in the gripper's position, in
@@ -63,6 +65,7 @@ class GripperActionServer:
         """
         self._movement_radius = movement_radius
         self._closed_angle = closed_angle
+        self._open_angle = open_angle
         self._timeout = timeout
         self._delta = delta
         self._overload = overload_limit
@@ -71,6 +74,7 @@ class GripperActionServer:
             'CRANE+ gripper action server configuration:\n' +
             '\tMovement radius: {} m\n'.format(self._movement_radius) +
             '\tClosed angle: {} rad\n'.format(self._closed_angle) +
+            '\tOpen angle: {} rad\n'.format(self._open_angle) +
             '\tMovement timeout: {} s\n'.format(self._timeout) +
             '\tPosition error delta: {} m\n'.format(self._delta) +
             '\tOverload limit: {} A'.format(self._overload))
@@ -110,20 +114,32 @@ class GripperActionServer:
         return msg
 
     def _handle_command(self):
-        self._timer = rospy.Timer(rospy.Duration(self._timeout),
-                                  self._timed_out,
-                                  oneshot=True)
-
         self._goal = self._as.accept_new_goal()
         if self._as.is_preempt_requested():
             self._handle_preempt()
             return
         # Calculate the servo angle for the desired position
-        goal_angle = self.width_to_angle(self._goal.command.position)
+        self._goal_angle = self.width_to_angle(self._goal.command.position)
+        # Range check the goal angle
+        if self._goal_angle < self._open_angle or \
+           self._goal_angle > self._closed_angle:
+            rospy.logwarn(
+                'Gripper commanded to {} rad, which is outside the '
+                'allowable range of [{}, {}] rad'.format(
+                    self._goal_angle,
+                    self._open_angle,
+                    self._closed_angle))
+            # TODO: Switch to ActionServer to allow rejecting goals
+            self._as.set_aborted(text='Out of range')
+            return
         rospy.loginfo('Gripper commanded to {} m; setting servo to {} '
-                      'rad'.format(self._goal.command.position, goal_angle))
+                      'rad'.format(self._goal.command.position, self._goal_angle))
         # Start the gripper servo moving to the goal position
-        self._command_pub.publish(goal_angle)
+        self._command_pub.publish(self._goal_angle)
+        # Set up the timer to prevent running forever
+        self._timer = rospy.Timer(rospy.Duration(self._timeout),
+                                  self._timed_out,
+                                  oneshot=True)
 
     def _handle_preempt(self):
         if self._timer:
@@ -190,10 +206,10 @@ class GripperActionServer:
         # range of 108 mm to 0 mm.
         # However, because one finger moves around a revolute joint while the other
         # is fixed, the distance is not linearly proportionate to the angle.
-        # We must calculate it using the length of the chord between the two
+        # We must calculate it using the length of the segment between the two
         # points, taking the circle as the rotation of the moving finger about the
         # servo's axis.
-        theta = 2 * asin(width / (2 * self._movement_radius))
+        theta = width / self._movement_radius
         # Theta must be shifted to the gripper servo's coordinate frame
         return -1 * (theta - self._closed_angle)
 
@@ -203,7 +219,7 @@ class GripperActionServer:
         # which this function uses the inverse of.
         # The given angle must be shifted to a range where zero is the gripper
         # closed position
-        return 2 * self._movement_radius * sin(abs(theta - self._closed_angle) / 2.0)
+        return self._movement_radius * abs(theta - self._closed_angle)
 
 
 def main():
@@ -216,10 +232,14 @@ def main():
     movement_radius = rospy.get_param(
         rosgraph.names.ns_join(rospy.get_name(), 'movement_radius'),
         0.093)
-    # The angle where the gripper is fully closed is 0.65 rad
+    # The angle where the gripper is fully closed is 0.65 rad by default
     closed_angle = rospy.get_param(
         rosgraph.names.ns_join(rospy.get_name(), 'servo_closed_angle'),
         0.65)
+    # The angle where the gripper is fully open is -0.6 rad by default
+    open_angle = rospy.get_param(
+        rosgraph.names.ns_join(rospy.get_name(), 'servo_open_angle'),
+        -0.6)
     # Default timeout of 5 seconds
     timeout = rospy.get_param(
         rosgraph.names.ns_join(rospy.get_name(), 'timeout'),
@@ -236,6 +256,7 @@ def main():
     server = GripperActionServer(servo_name,
                                  movement_radius,
                                  closed_angle,
+                                 open_angle,
                                  timeout,
                                  delta,
                                  overload_limit)
