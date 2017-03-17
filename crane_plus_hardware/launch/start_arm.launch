@@ -1,9 +1,4 @@
 <launch>
-  <!-- The robot description, used by many of the control nodes -->
-  <param name="robot_description"
-    command="$(find xacro)/xacro.py '$(find crane_plus_simulation)/urdf/simulated_crane_plus.urdf.xacro'"
-    />
-
   <!-- Launch the Dynamixel controller manager to talk to the servos -->
   <node name="dynamixel_manager"
     pkg="dynamixel_controllers"

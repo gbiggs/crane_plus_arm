@@ -6,7 +6,13 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /RobotModel1
         - /TF1
+        - /TF1/Tree1
+        - /TF1/Tree1/base_link1
+        - /TF1/Tree1/base_link1/crane_plus_base_link1
+        - /TF1/Tree1/base_link1/crane_plus_base_link1/crane_plus_mounting_plate_link1
+        - /TF1/Tree1/base_link1/crane_plus_base_link1/crane_plus_mounting_plate_link1/crane_plus_base_bracket_link1
       Splitter Ratio: 0.5
     Tree Height: 1724
   - Class: rviz/Selection
@@ -59,6 +65,10 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         crane_plus_base_bracket_link:
           Alpha: 1
           Show Axes: false
@@ -77,7 +87,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         crane_plus_gripper_servo_link:
           Alpha: 1
           Show Axes: false
@@ -102,7 +111,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         crane_plus_shoulder_servo_link:
           Alpha: 1
           Show Axes: false
@@ -148,10 +156,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        world:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         wrist_link:
           Alpha: 1
           Show Axes: false
@@ -168,6 +172,8 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        base_link:
+          Value: true
         crane_plus_base_bracket_link:
           Value: false
         crane_plus_base_link:
@@ -204,8 +210,6 @@ Visualization Manager:
           Value: true
         upper_arm_link:
           Value: true
-        world:
-          Value: false
         wrist_link:
           Value: true
       Marker Scale: 0.25
@@ -214,7 +218,7 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        world:
+        base_link:
           crane_plus_base_link:
             crane_plus_mounting_plate_link:
               crane_plus_base_bracket_link:
@@ -241,7 +245,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: world
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -269,17 +273,17 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.127421737
-        Y: -0.117881618
-        Z: 0.16041252
+        X: 0.21011211
+        Y: -0.132362157
+        Z: 0.160952777
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.390398353
+      Pitch: 0.220398486
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.78357172
+      Yaw: 4.50359106
     Saved: ~
 Window Geometry:
   Displays:
