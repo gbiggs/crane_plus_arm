@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+
+<robot
+    name="crane_plus_arm"
+    xmlns:xacro="http://ros.org/wiki/xacro"
+    xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+    xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+    xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
+
+  <!-- Include the Crane+ generator macro -->
+  <xacro:include filename="$(find crane_plus_description)/urdf/crane_plus.xacro"/>
+
+  <!-- Link to provide the location reference for the arm -->
+  <link name="base_link"/>
+
+  <!-- Use the crane_plus macro to configure a Crane+ arm with desired joint
+       velocities limit and lower/upper limits for the first joint. This
+       allows accessing different operational areas, e.g. left-handed vs.
+       right-handed robots. -->
+  <crane_plus parent="base_link"
+              servo_color="black" bracket_color="grey" gripper_color="black"
+              joints_vlimit="1.571"
+              pan_llimit="-2.617" pan_ulimit="2.617">
+    <!-- Place the "floating" arm at the origin of the base_link. -->
+    <origin xyz="0 0 0"/>
+  </crane_plus>
+
+  <!-- Add the transmissions necessary to move the simulated robot's joints -->
+  <!-- Shoulder servo -->
+  <transmission name="shoulder">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="shoulder_joint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="shoulder_servo">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- Upper arm servo -->
+  <transmission name="upper_arm">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="upper_arm_joint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="upper_arm_servo">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- Lower arm servo -->
+  <transmission name="lower_arm">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lower_arm_joint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lower_arm_servo">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- Wrist servo -->
+  <transmission name="wrist">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="wrist_joint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="wrist_servo">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- Gripper servo -->
+  <transmission name="gripper">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="gripper_joint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="gripper_servo">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <gazebo>
+    <plugin name="control" filename="libgazebo_ros_control.so"/>
+    <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+      <jointName>
+        shoulder_joint,
+        upper_arm_joint,
+        lower_arm_joint,
+        wrist_joint,
+        gripper_joint
+      </jointName>
+    </plugin>
+  </gazebo>
+</robot>
