@@ -2,8 +2,11 @@
   <name>crane_plus_description</name>
   <version>0.1.0</version>
   <description>
-   crane_plus_description contains URDF files and meshes for the Crane+ arm.
+    crane_plus_description contains URDF files and meshes for the Crane+ arm.
+    Based on the turtlebot_arm_description package.
   </description>
+  <author>Michael Ferguson</author>
+  <author>Melonee Wise</author>
   <author>Geoffrey Biggs</author>
   <maintainer email="geoffrey.biggs@aist.go.jp">Geoffrey Biggs</maintainer>
   <license>BSD</license>
