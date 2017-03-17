@@ -1,0 +1,22 @@
+<launch>
+  <node
+    name="crane_plus_camera_calibration"
+    pkg="crane_plus_camera_calibration"
+    type="calibrate_camera_checkerboard"
+    output="screen">
+    <param name="fixed_frame" value="/world"/>
+    <param name="checkerboard_width" value="8"/>
+    <param name="checkerboard_height" value="6"/>
+    <param name="checkerboard_grid" value="0.285"/>
+    <param name="gripper_tip_x" value="0.0745"/>
+    <param name="gripper_tip_y" value="0.017"/>
+    <param name="gripper_tip_z" value="0.0521"/> <!-- Finger Z is 10.6 mm -->
+    <remap from="/camera/rgb/camera_info" to="/camera/camera_info"/>
+    <remap from="/camera/rgb/image_mono" to="/camera/image_raw"/>
+  </node>
+
+  <node name="checkerboard_image_view" pkg="image_view" type="image_view">
+    <remap from="image" to="/crane_plus_camera_calibration/calibration_pattern_out"/>
+    <param name="autosize" value="true"/>
+  </node>
+</launch>
