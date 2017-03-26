@@ -7,7 +7,7 @@
     <param name="fixed_frame" value="/world"/>
     <param name="checkerboard_width" value="8"/>
     <param name="checkerboard_height" value="6"/>
-    <param name="checkerboard_grid" value="0.285"/>
+    <param name="checkerboard_grid" value="0.0285"/>
     <param name="gripper_tip_x" value="0.0745"/>
     <param name="gripper_tip_y" value="0.017"/>
     <param name="gripper_tip_z" value="0.0521"/> <!-- Finger Z is 10.6 mm -->
