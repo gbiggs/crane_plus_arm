@@ -48,7 +48,7 @@ def main():
         rospy.logerr('No servo controller names specified; nothing to publish')
         return 1
 
-    js_pub = rospy.Publisher('joint_states', JointState)
+    js_pub = rospy.Publisher('joint_states', JointState, queue_size=1)
 
     servo_subs = []
     for s in servo_controllers:
