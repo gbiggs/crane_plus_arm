@@ -26,37 +26,37 @@
   </crane_plus>
 
   <!-- Add the transmissions necessary to move the simulated robot's joints -->
-  <!-- Shoulder servo -->
-  <transmission name="shoulder">
+  <!-- Shoulder revolute servo -->
+  <transmission name="shoulder_revolute">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="shoulder_joint">
+    <joint name="crane_plus_shoulder_revolute_joint">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
-    <actuator name="shoulder_servo">
+    <actuator name="shoulder_revolute_servo">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
-  <!-- Upper arm servo -->
-  <transmission name="upper_arm">
+  <!-- Shoulder flex servo -->
+  <transmission name="shoulder_flex">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="upper_arm_joint">
+    <joint name="crane_plus_shoulder_flex_joint">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
-    <actuator name="upper_arm_servo">
+    <actuator name="shoulder_flex_servo">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
-  <!-- Lower arm servo -->
-  <transmission name="lower_arm">
+  <!-- Elbow servo -->
+  <transmission name="elbow">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="lower_arm_joint">
+    <joint name="crane_plus_elbow_joint">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
-    <actuator name="lower_arm_servo">
+    <actuator name="elbow_servo">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
@@ -65,7 +65,7 @@
   <!-- Wrist servo -->
   <transmission name="wrist">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="wrist_joint">
+    <joint name="crane_plus_wrist_joint">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="wrist_servo">
@@ -74,13 +74,13 @@
     </actuator>
   </transmission>
 
-  <!-- Gripper servo -->
-  <transmission name="gripper">
+  <!-- Finger servo -->
+  <transmission name="finger">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="gripper_joint">
+    <joint name="crane_plus_moving_finger_joint">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
-    <actuator name="gripper_servo">
+    <actuator name="finger_servo">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
@@ -90,11 +90,11 @@
     <plugin name="control" filename="libgazebo_ros_control.so"/>
     <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
       <jointName>
-        shoulder_joint,
-        upper_arm_joint,
-        lower_arm_joint,
-        wrist_joint,
-        gripper_joint
+        crane_plus_shoulder_revolute_joint,
+        crane_plus_shoulder_flex_joint,
+        crane_plus_elbow_joint,
+        crane_plus_wrist_joint,
+        crane_plus_moving_finger_joint
       </jointName>
     </plugin>
   </gazebo>

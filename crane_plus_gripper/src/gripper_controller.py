@@ -228,7 +228,7 @@ def main():
     rospy.init_node('crane_plus_gripper')
     servo_name = rospy.get_param(
         rosgraph.names.ns_join(rospy.get_name(), 'servo_name'),
-        'gripper_servo_controller')
+        'finger_servo_controller')
     # The radius of the circle drawn by the moving finger's tip is 93 mm
     movement_radius = rospy.get_param(
         rosgraph.names.ns_join(rospy.get_name(), 'movement_radius'),

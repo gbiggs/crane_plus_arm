@@ -1,5 +1,6 @@
 <launch>
-  <!-- Launch the Dynamixel controller manager to talk to the servos -->
+  <!-- Launch the Dynamixel controller manager to talk to the servos
+       This does the actual talking to hardware. -->
   <node name="dynamixel_manager"
     pkg="dynamixel_controllers"
     type="controller_manager.py"
@@ -7,12 +8,13 @@
     output="screen"
     >
     <rosparam
-      file="$(find crane_plus_hardware)/config/controller_manager.yaml"
+      file="$(find crane_plus_hardware)/config/servo_controller_manager.yaml"
       command="load"
       />
   </node>
 
-  <!-- Start the individual servo controllers -->
+  <!-- Start the individual servo controllers
+       These provide a JointPositionController interface for each servo. -->
   <rosparam file="$(find crane_plus_hardware)/config/servo_controllers.yaml"
     command="load"
     />
@@ -21,16 +23,18 @@
     type="controller_spawner.py"
     args="--manager=dynamixel_controller_manager
           --port dxl_tty1
-          shoulder_servo_controller
-          upper_arm_servo_controller
-          lower_arm_servo_controller
+          shoulder_revolute_servo_controller
+          shoulder_flex_servo_controller
+          elbow_servo_controller
           wrist_servo_controller
-          gripper_servo_controller"
+          finger_servo_controller"
     output="screen"
     />
 
-  <!-- Start the joint trajectory controller for the arm -->
-  <rosparam file="$(find crane_plus_hardware)/config/joints_trajectory_controller.yaml"
+  <!-- Start the joint trajectory controller for the arm
+       This amalgamates the four listed JointPositionController interfaces into
+       a single JointTrajectoryController interface. -->
+  <rosparam file="$(find crane_plus_hardware)/config/arm_joints_trajectory_controller.yaml"
     command="load"
     />
   <node name="joint_trajectory_controller_spawner"
@@ -39,14 +43,16 @@
     args="--manager=dynamixel_controller_manager
           --type=meta
           crane_plus_arm
-          shoulder_servo_controller
-          upper_arm_servo_controller
-          lower_arm_servo_controller
+          shoulder_revolute_servo_controller
+          shoulder_flex_servo_controller
+          elbow_servo_controller
           wrist_servo_controller"
     output="screen"
     />
 
-  <!-- Start the gripper command handler -->
+  <!-- Start the gripper command handler
+       This works with the finger servo's JointPositionController to serve the
+       gripper action. -->
   <node name="crane_plus_gripper"
     pkg="crane_plus_gripper"
     type="gripper_controller.py"

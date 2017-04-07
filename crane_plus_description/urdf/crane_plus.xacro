@@ -19,44 +19,37 @@
       <child link="crane_plus_base_link"/>
     </joint>
 
-    <!-- fake gripper_link joint gives us a free servo, making the arm 5DOF -->
-    <!--<link name="virtual_gripper_link" />-->
-    <!--<joint name="virtual_gripper_joint" type="revolute">-->
-      <!--<origin xyz="-0.015 0 0.1" rpy="0 -1.57 0" />-->
-      <!--<parent link="crane_plus_wrist_joiner_link"/>-->
-      <!--<child link="virtual_gripper_link" />-->
-      <!--<limit effort="30" velocity="1" lower="-3.14" upper="3.14"/>-->
-      <!--<axis xyz="1 0 0"/>-->
-    <!--</joint>-->
+    <!-- TODO: When rviz supports multiple materials per link, combine the
+         meshes to simplify the link structure. -->
 
     <!-- Mounting plate -->
     <mounting_plate
         parent="crane_plus_base_link"
-        name="crane_plus_mounting_plate"
+        name="crane_plus_internal_mounting_plate"
         color="black">
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </mounting_plate>
 
     <!-- Base bracket -->
     <bioloid_f53_fixed
-        parent="crane_plus_mounting_plate_link"
-        name="crane_plus_base_bracket"
+        parent="crane_plus_internal_mounting_plate_link"
+        name="crane_plus_internal_base_bracket"
         color="grey">
       <origin xyz="0 0 ${MOUNT_HEIGHT}" rpy="0 0 0"/>
     </bioloid_f53_fixed>
 
     <!-- Shoulder servo -->
     <dynamixel_ax12_fixed
-        parent="crane_plus_base_bracket_link"
-        name="crane_plus_shoulder_servo"
+        parent="crane_plus_internal_base_bracket_link"
+        name="crane_plus_internal_shoulder_servo"
         color="black">
         <origin xyz="-${AX12_SIDE_SCREW_OFFSET} 0 ${AX12_BODY_MAIN_HEIGHT/2 + F53_HEIGHT}" rpy="0 0 0"/>
     </dynamixel_ax12_fixed>
 
     <!-- Shoulder bracket -->
     <bioloid_f2_revolute_base_axis
-        parent="crane_plus_shoulder_servo_link"
-        name="shoulder"
+        parent="crane_plus_internal_shoulder_servo_link"
+        name="crane_plus_shoulder_revolute"
         color="grey"
         vlimit="${joints_vlimit}"
         llimit="${pan_llimit}"
@@ -66,8 +59,8 @@
 
     <!--Upper arm servo -->
     <dynamixel_ax12_revolute
-        parent="shoulder_link"
-        name="upper_arm"
+        parent="crane_plus_shoulder_revolute_link"
+        name="crane_plus_shoulder_flex"
         color="black"
         vlimit="${joints_vlimit}"
         llimit="-1.7"
@@ -77,32 +70,32 @@
 
     <!-- Upper arm upper joiner -->
     <bioloid_f3_fixed
-        parent="upper_arm_link"
-        name="crane_plus_upper_arm_upper_joiner"
+        parent="crane_plus_shoulder_flex_link"
+        name="crane_plus_internal_upper_arm_upper_joiner"
         color="grey">
         <origin xyz="${AX12_ORIGIN_TO_AXLE+AX12_ORIGIN_TO_END_SCREW+F3_SCREW_HEIGHT} 0 0" rpy="-${M_PI/2} 0 ${M_PI/2}"/>
     </bioloid_f3_fixed>
 
     <!-- Upper arm lower joiner -->
     <bioloid_f3_fixed
-        parent="crane_plus_upper_arm_upper_joiner_link"
-        name="crane_plus_upper_arm_lower_joiner"
+        parent="crane_plus_internal_upper_arm_upper_joiner_link"
+        name="crane_plus_internal_upper_arm_lower_joiner"
         color="grey">
         <origin xyz="0 0 0" rpy="${M_PI} 0 0"/>
     </bioloid_f3_fixed>
 
     <!-- Lower arm servo -->
     <dynamixel_ax12_fixed
-        parent="crane_plus_upper_arm_lower_joiner_link"
-        name="crane_plus_lower_arm_servo"
+        parent="crane_plus_internal_upper_arm_lower_joiner_link"
+        name="crane_plus_internal_lower_arm_servo"
         color="black">
       <origin xyz="0 0 ${F3_SCREW_HEIGHT+AX12_ORIGIN_TO_END_SCREW}" rpy="0 ${M_PI/2} ${M_PI/2}"/>
     </dynamixel_ax12_fixed>
 
     <!-- Lower arm bracket -->
     <bioloid_f4_revolute
-        parent="crane_plus_lower_arm_servo_link"
-        name="lower_arm"
+        parent="crane_plus_internal_lower_arm_servo_link"
+        name="crane_plus_elbow"
         color="grey"
         vlimit="${joints_vlimit}"
         llimit="-2.3"
@@ -112,24 +105,24 @@
 
     <!-- Lower arm joiner -->
     <bioloid_f3_fixed
-        parent="lower_arm_link"
-        name="crane_plus_lower_arm_joiner"
+        parent="crane_plus_elbow_link"
+        name="crane_plus_internal_lower_arm_joiner"
         color="grey">
         <origin xyz="0 0 -${F4_AXLE_HEIGHT}" rpy="0 ${M_PI} 0"/>
     </bioloid_f3_fixed>
 
     <!-- Wrist servo -->
     <dynamixel_ax12_fixed
-        parent="crane_plus_lower_arm_joiner_link"
-        name="crane_plus_wrist_servo"
+        parent="crane_plus_internal_lower_arm_joiner_link"
+        name="crane_plus_internal_wrist_servo"
         color="black">
       <origin xyz="0 0 ${F3_SCREW_HEIGHT+AX12_ORIGIN_TO_END_SCREW}" rpy="0 ${M_PI/2} ${M_PI/2}"/>
     </dynamixel_ax12_fixed>
 
     <!-- Wrist bracket -->
     <bioloid_f2_revolute
-        parent="crane_plus_wrist_servo_link"
-        name="wrist"
+        parent="crane_plus_internal_wrist_servo_link"
+        name="crane_plus_wrist"
         color="grey"
         vlimit="${joints_vlimit}"
         llimit="-1.7"
@@ -139,40 +132,48 @@
 
     <!-- Wrist joiner -->
     <bioloid_f3_fixed
-        parent="wrist_link"
-        name="crane_plus_wrist_joiner"
+        parent="crane_plus_wrist_link"
+        name="crane_plus_internal_wrist_joiner"
         color="grey">
         <origin xyz="0 0 -${F2_AXLE_HEIGHT}" rpy="0 ${M_PI} ${M_PI/2}"/>
     </bioloid_f3_fixed>
 
     <!-- Gripper servo -->
     <dynamixel_ax12_fixed
-        parent="crane_plus_wrist_joiner_link"
-        name="crane_plus_gripper_servo"
+        parent="crane_plus_internal_wrist_joiner_link"
+        name="crane_plus_internal_gripper_servo"
         color="black">
         <origin xyz="${AX12_SIDE_SCREW_OFFSET} 0 ${F3_SCREW_HEIGHT+AX12_ORIGIN_TO_SIDE_SCREW}" rpy="${M_PI/2} ${M_PI} 0"/>
     </dynamixel_ax12_fixed>
 
     <!-- Fixed finger joiner -->
     <bioloid_f3_fixed
-        parent="crane_plus_gripper_servo_link"
-        name="crane_plus_fixed_finger_joiner"
+        parent="crane_plus_internal_gripper_servo_link"
+        name="crane_plus_internal_fixed_finger_joiner"
         color="grey">
         <origin xyz="${AX12_ORIGIN_TO_END_SCREW+F3_SCREW_HEIGHT} 0 0" rpy="-${M_PI/2} 0 ${M_PI/2}"/>
     </bioloid_f3_fixed>
 
     <!-- Fixed finger -->
     <fixed_finger
-        parent="crane_plus_fixed_finger_joiner_link"
-        name="crane_plus_fixed_finger"
+        parent="crane_plus_internal_fixed_finger_joiner_link"
+        name="crane_plus_internal_fixed_finger"
         color="black">
       <origin xyz="0 0 0" rpy="0 0 ${M_PI}"/>
     </fixed_finger>
 
-    <!-- Finger bracket (actual gripper joint) -->
+    <!-- Tip of the fixed finger (useful in all sorts of ways) -->
+    <joint name="crane_plus_fixed_finger_tip" type="fixed">
+      <origin xyz="0.0745 0 -0.0106" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+      <parent link="crane_plus_internal_fixed_finger_link"/>
+      <child link="crane_plus_fixed_finger_tip_link"/>
+    </joint>
+    <link name="crane_plus_fixed_finger_tip_link"/>
+
+    <!-- Moving finger bracket (actual gripper joint) -->
     <bioloid_f2_revolute
-        parent="crane_plus_gripper_servo_link"
-        name="gripper"
+        parent="crane_plus_internal_gripper_servo_link"
+        name="crane_plus_moving_finger"
         color="grey"
         vlimit="${joints_vlimit}"
         llimit="-0.6"
@@ -182,11 +183,27 @@
 
     <!-- Moving finger -->
     <moving_finger
-        parent="gripper_link"
-        name="crane_plus_moving_finger"
+        parent="crane_plus_moving_finger_link"
+        name="crane_plus_internal_moving_finger_plate"
         color="black">
       <origin xyz="0 0 -${F2_AXLE_HEIGHT}" rpy="${M_PI} 0 0"/>
     </moving_finger>
+
+    <!-- Tip of the moving finger (useful in all sorts of ways) -->
+    <joint name="crane_plus_moving_finger_tip" type="fixed">
+      <origin xyz="0.0923 0 -0.0194" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+      <parent link="crane_plus_internal_moving_finger_plate_link"/>
+      <child link="crane_plus_moving_finger_tip_link"/>
+    </joint>
+    <link name="crane_plus_moving_finger_tip_link"/>
+
+    <!-- A virtual link to make it easy to find the centre of the gripper -->
+    <link name="crane_plus_gripper_centre"/>
+    <joint name="crane_plus_gripper_joint" type="fixed">
+      <origin xyz="0 -0.0537 0" rpy="${M_PI/2} -${M_PI/2} 0"/>
+      <parent link="crane_plus_internal_gripper_servo_link"/>
+      <child link="crane_plus_gripper_centre" />
+    </joint>
 
   </xacro:macro>
 </robot>

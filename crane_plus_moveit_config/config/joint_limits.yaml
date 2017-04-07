@@ -2,27 +2,27 @@
 # Specific joint properties can be changed with the keys [max_position, min_position, max_velocity, max_acceleration]
 # Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
 joint_limits:
-  gripper_joint:
+  crane_plus_elbow_joint:
     has_velocity_limits: true
     max_velocity: 1.571
     has_acceleration_limits: false
     max_acceleration: 0
-  lower_arm_joint:
+  crane_plus_moving_finger_joint:
     has_velocity_limits: true
     max_velocity: 1.571
     has_acceleration_limits: false
     max_acceleration: 0
-  shoulder_joint:
+  crane_plus_shoulder_flex_joint:
     has_velocity_limits: true
     max_velocity: 1.571
     has_acceleration_limits: false
     max_acceleration: 0
-  upper_arm_joint:
+  crane_plus_shoulder_revolute_joint:
     has_velocity_limits: true
     max_velocity: 1.571
     has_acceleration_limits: false
     max_acceleration: 0
-  wrist_joint:
+  crane_plus_wrist_joint:
     has_velocity_limits: true
     max_velocity: 1.571
     has_acceleration_limits: false
