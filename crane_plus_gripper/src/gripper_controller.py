@@ -28,7 +28,7 @@ class GripperActionServer:
     """The action server that handles gripper commands."""
 
     def __init__(self,
-                 servo_name,
+                 servo_namespace,
                  movement_radius,
                  closed_angle,
                  open_angle,
@@ -38,12 +38,13 @@ class GripperActionServer:
         """Initialise the gripper action server.
 
         Args:
-            servo_name (str): The name of the servo controlling the gripper.
-                This will be used as the namespace for the topics for that
-                servo. For example, if the name is given as
-                "gripper_servo_controller", this node will publish to the
-                "gripper_servo_controller/command" topic and subscribe to the
-                "gripper_servo_controller/state" topic.
+            servo_namespace (str): The namespace of the controller for the
+                gripper's actuator. This will be used as the namespace for the
+                topics for that actuator. For example, if the namespace is
+                given as "/gripper_servo_controller", this node will publish to
+                the "/gripper_servo_controller/command" topic and subscribe to
+                the "/gripper_servo_controller/state" topic. These two topics
+                must comply with the JointPositionController interface.
             movement_radius (float): The radius of the circle described by the
                 tip of the moving finger. This circle is centred on the gripper
                 servo's axle.
@@ -87,11 +88,11 @@ class GripperActionServer:
         self._as.register_preempt_callback(self._handle_preempt)
 
         self._command_pub = rospy.Publisher(
-            rosgraph.names.ns_join(servo_name, 'command'),
+            rosgraph.names.ns_join(servo_namespace, 'command'),
             Float64,
             queue_size=1)
         self._state_sub = rospy.Subscriber(
-            rosgraph.names.ns_join(servo_name, 'state'),
+            rosgraph.names.ns_join(servo_namespace, 'state'),
             JointState, self._state_update)
         self._timer = None
         self._last_state = None
@@ -226,9 +227,9 @@ class GripperActionServer:
 def main():
     """Main function."""
     rospy.init_node('crane_plus_gripper')
-    servo_name = rospy.get_param(
-        rosgraph.names.ns_join(rospy.get_name(), 'servo_name'),
-        'finger_servo_controller')
+    servo_namespace = rospy.get_param(
+        rosgraph.names.ns_join(rospy.get_name(), 'servo_namespace'),
+        '/finger_servo_controller')
     # The radius of the circle drawn by the moving finger's tip is 93 mm
     movement_radius = rospy.get_param(
         rosgraph.names.ns_join(rospy.get_name(), 'movement_radius'),
@@ -254,7 +255,7 @@ def main():
         rosgraph.names.ns_join(rospy.get_name(), 'overload_limit'),
         0.9)
 
-    server = GripperActionServer(servo_name,
+    server = GripperActionServer(servo_namespace,
                                  movement_radius,
                                  closed_angle,
                                  open_angle,
