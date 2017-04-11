@@ -228,32 +228,20 @@ def main():
     """Main function."""
     rospy.init_node('crane_plus_gripper')
     servo_namespace = rospy.get_param(
-        rosgraph.names.ns_join(rospy.get_name(), 'servo_namespace'),
+        '~servo_namespace',
         '/finger_servo_controller')
     # The radius of the circle drawn by the moving finger's tip is 93 mm
-    movement_radius = rospy.get_param(
-        rosgraph.names.ns_join(rospy.get_name(), 'movement_radius'),
-        0.093)
+    movement_radius = rospy.get_param('~movement_radius', 0.093)
     # The angle where the gripper is fully closed is 0.65 rad by default
-    closed_angle = rospy.get_param(
-        rosgraph.names.ns_join(rospy.get_name(), 'servo_closed_angle'),
-        0.65)
+    closed_angle = rospy.get_param('~servo_closed_angle', 0.65)
     # The angle where the gripper is fully open is -0.6 rad by default
-    open_angle = rospy.get_param(
-        rosgraph.names.ns_join(rospy.get_name(), 'servo_open_angle'),
-        -0.6)
+    open_angle = rospy.get_param('~servo_open_angle', -0.6)
     # Default timeout of 5 seconds
-    timeout = rospy.get_param(
-        rosgraph.names.ns_join(rospy.get_name(), 'timeout'),
-        5)
+    timeout = rospy.get_param('~timeout', 5)
     # Default error delta of 1 mm
-    delta = rospy.get_param(
-        rosgraph.names.ns_join(rospy.get_name(), 'delta'),
-        0.001)
+    delta = rospy.get_param('~delta', 0.005)
     # Overload protection limit
-    overload_limit = rospy.get_param(
-        rosgraph.names.ns_join(rospy.get_name(), 'overload_limit'),
-        0.9)
+    overload_limit = rospy.get_param('overload_limit', 0.9)
 
     server = GripperActionServer(servo_namespace,
                                  movement_radius,

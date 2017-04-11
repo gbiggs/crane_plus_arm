@@ -8,12 +8,7 @@ Panels:
         - /Status1
         - /RobotModel1
         - /TF1
-        - /TF1/Tree1
-        - /TF1/Tree1/base_link1
-        - /TF1/Tree1/base_link1/crane_plus_base_link1
-        - /TF1/Tree1/base_link1/crane_plus_base_link1/crane_plus_mounting_plate_link1
-        - /TF1/Tree1/base_link1/crane_plus_base_link1/crane_plus_mounting_plate_link1/crane_plus_base_bracket_link1
-      Splitter Ratio: 0.5
+      Splitter Ratio: 0.552295923
     Tree Height: 1724
   - Class: rviz/Selection
     Name: Selection
@@ -65,44 +60,84 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        crane_plus_base_bracket_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         crane_plus_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        crane_plus_fixed_finger_joiner_link:
+        crane_plus_elbow_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        crane_plus_fixed_finger_link:
+        crane_plus_fixed_finger_tip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        crane_plus_gripper_servo_link:
+        crane_plus_gripper_centre:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        crane_plus_lower_arm_joiner_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        crane_plus_lower_arm_servo_link:
+        crane_plus_internal_base_bracket_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        crane_plus_mounting_plate_link:
+        crane_plus_internal_fixed_finger_joiner_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_fixed_finger_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_gripper_servo_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_lower_arm_joiner_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_lower_arm_servo_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_mounting_plate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_moving_finger_plate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_shoulder_servo_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_upper_arm_lower_joiner_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_upper_arm_upper_joiner_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_wrist_joiner_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        crane_plus_internal_wrist_servo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -111,56 +146,30 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        crane_plus_shoulder_servo_link:
+          Value: true
+        crane_plus_moving_finger_tip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        crane_plus_shoulder_flex_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        crane_plus_upper_arm_lower_joiner_link:
+        crane_plus_shoulder_revolute_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        crane_plus_upper_arm_upper_joiner_link:
+        crane_plus_wrist_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        crane_plus_wrist_joiner_link:
+        world:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        crane_plus_wrist_servo_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        gripper_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        lower_arm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        shoulder_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        upper_arm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wrist_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
@@ -172,80 +181,90 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        base_link:
-          Value: true
-        crane_plus_base_bracket_link:
-          Value: false
         crane_plus_base_link:
           Value: true
-        crane_plus_fixed_finger_joiner_link:
+        crane_plus_elbow_link:
+          Value: true
+        crane_plus_fixed_finger_tip_link:
+          Value: true
+        crane_plus_gripper_centre:
           Value: false
-        crane_plus_fixed_finger_link:
+        crane_plus_internal_base_bracket_link:
           Value: false
-        crane_plus_gripper_servo_link:
+        crane_plus_internal_fixed_finger_joiner_link:
           Value: false
-        crane_plus_lower_arm_joiner_link:
+        crane_plus_internal_fixed_finger_link:
           Value: false
-        crane_plus_lower_arm_servo_link:
+        crane_plus_internal_gripper_servo_link:
           Value: false
-        crane_plus_mounting_plate_link:
+        crane_plus_internal_lower_arm_joiner_link:
+          Value: false
+        crane_plus_internal_lower_arm_servo_link:
+          Value: false
+        crane_plus_internal_mounting_plate_link:
+          Value: false
+        crane_plus_internal_moving_finger_plate_link:
+          Value: false
+        crane_plus_internal_shoulder_servo_link:
+          Value: false
+        crane_plus_internal_upper_arm_lower_joiner_link:
+          Value: false
+        crane_plus_internal_upper_arm_upper_joiner_link:
+          Value: false
+        crane_plus_internal_wrist_joiner_link:
+          Value: false
+        crane_plus_internal_wrist_servo_link:
           Value: false
         crane_plus_moving_finger_link:
-          Value: false
-        crane_plus_shoulder_servo_link:
-          Value: false
-        crane_plus_upper_arm_lower_joiner_link:
-          Value: false
-        crane_plus_upper_arm_upper_joiner_link:
-          Value: false
-        crane_plus_wrist_joiner_link:
-          Value: false
-        crane_plus_wrist_servo_link:
-          Value: false
-        gripper_link:
           Value: true
-        lower_arm_link:
+        crane_plus_moving_finger_tip_link:
           Value: true
-        shoulder_link:
+        crane_plus_shoulder_flex_link:
           Value: true
-        upper_arm_link:
+        crane_plus_shoulder_revolute_link:
           Value: true
-        wrist_link:
+        crane_plus_wrist_link:
           Value: true
-      Marker Scale: 0.25
+        world:
+          Value: false
+      Marker Scale: 0.150000006
       Name: TF
       Show Arrows: true
       Show Axes: true
-      Show Names: false
+      Show Names: true
       Tree:
-        base_link:
+        world:
           crane_plus_base_link:
-            crane_plus_mounting_plate_link:
-              crane_plus_base_bracket_link:
-                crane_plus_shoulder_servo_link:
-                  shoulder_link:
-                    upper_arm_link:
-                      crane_plus_upper_arm_upper_joiner_link:
-                        crane_plus_upper_arm_lower_joiner_link:
-                          crane_plus_lower_arm_servo_link:
-                            lower_arm_link:
-                              crane_plus_lower_arm_joiner_link:
-                                crane_plus_wrist_servo_link:
-                                  wrist_link:
-                                    crane_plus_wrist_joiner_link:
-                                      crane_plus_gripper_servo_link:
-                                        crane_plus_fixed_finger_joiner_link:
-                                          crane_plus_fixed_finger_link:
-                                            {}
-                                        gripper_link:
-                                          crane_plus_moving_finger_link:
-                                            {}
+            crane_plus_internal_mounting_plate_link:
+              crane_plus_internal_base_bracket_link:
+                crane_plus_internal_shoulder_servo_link:
+                  crane_plus_shoulder_revolute_link:
+                    crane_plus_shoulder_flex_link:
+                      crane_plus_internal_upper_arm_upper_joiner_link:
+                        crane_plus_internal_upper_arm_lower_joiner_link:
+                          crane_plus_internal_lower_arm_servo_link:
+                            crane_plus_elbow_link:
+                              crane_plus_internal_lower_arm_joiner_link:
+                                crane_plus_internal_wrist_servo_link:
+                                  crane_plus_wrist_link:
+                                    crane_plus_internal_wrist_joiner_link:
+                                      crane_plus_internal_gripper_servo_link:
+                                        crane_plus_gripper_centre:
+                                          {}
+                                        crane_plus_internal_fixed_finger_joiner_link:
+                                          crane_plus_internal_fixed_finger_link:
+                                            crane_plus_fixed_finger_tip_link:
+                                              {}
+                                        crane_plus_moving_finger_link:
+                                          crane_plus_internal_moving_finger_plate_link:
+                                            crane_plus_moving_finger_tip_link:
+                                              {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_link
+    Fixed Frame: world
     Frame Rate: 30
   Name: root
   Tools:
@@ -266,32 +285,32 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.625662684
+      Distance: 1.0015856
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.21011211
-        Y: -0.132362157
-        Z: 0.160952777
+        X: 0.264683485
+        Y: 0.125645474
+        Z: 0.0792145953
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.220398486
+      Pitch: 0.550398409
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.50359106
+      Yaw: 5.05859232
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
   Height: 2139
   Hide Left Dock: false
-  Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001b80000077afc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000008200fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000005c0000077a0000011e00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000013a0000077afc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000005c0000077a000000f000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000efe00000054fc0100000002fb0000000800540069006d0065010000000000000efe0000039500fffffffb0000000800540069006d0065010000000000000450000000000000000000000bf80000077a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Hide Right Dock: true
+  QMainWindow State: 000000ff00000000fd0000000400000000000002760000077afc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000008200fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000005c0000077a0000011e00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000013a0000077afc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000005c0000077a000000f000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000efe00000054fc0100000002fb0000000800540069006d0065010000000000000efe0000039500fffffffb0000000800540069006d0065010000000000000450000000000000000000000c7e0000077a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -299,7 +318,7 @@ Window Geometry:
   Tool Properties:
     collapsed: false
   Views:
-    collapsed: false
+    collapsed: true
   Width: 3838
   X: 2160
   Y: 19

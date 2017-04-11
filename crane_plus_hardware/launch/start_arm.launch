@@ -34,7 +34,7 @@
   <!-- Start the joint trajectory controller for the arm
        This amalgamates the four listed JointPositionController interfaces into
        a single JointTrajectoryController interface. -->
-  <rosparam file="$(find crane_plus_hardware)/config/arm_joints_trajectory_controller.yaml"
+  <rosparam file="$(find crane_plus_hardware)/config/arm_joint_trajectory_controller.yaml"
     command="load"
     />
   <node name="joint_trajectory_controller_spawner"

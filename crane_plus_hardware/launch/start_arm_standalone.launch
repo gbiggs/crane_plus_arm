@@ -1,7 +1,7 @@
 <launch>
   <!-- The robot description, used by many of the control nodes -->
   <param name="robot_description"
-    command="$(find xacro)/xacro.py '$(find crane_plus_hardware)/urdf/crane_plus.urdf.xacro'"
+    command="$(find xacro)/xacro.py '$(find crane_plus_description)/urdf/crane_plus.urdf.xacro'"
     />
 
   <include file="$(find crane_plus_hardware)/launch/start_arm.launch"/>
