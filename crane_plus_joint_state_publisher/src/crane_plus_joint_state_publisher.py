@@ -5,7 +5,6 @@
 import sys
 
 import rospy
-import rosgraph.names
 
 from sensor_msgs.msg import JointState
 from dynamixel_msgs.msg import JointState as DynamixelJointState
