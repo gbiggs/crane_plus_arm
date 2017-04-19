@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <robot
-    name="crane_plus_arm"
+    name="crane_plus"
     xmlns:xacro="http://ros.org/wiki/xacro"
     xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
     xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"

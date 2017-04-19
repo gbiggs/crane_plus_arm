@@ -1,6 +1,6 @@
 <launch>
   <rosparam
-    file="$(find crane_plus_simulation)/config/crane_plus_arm.yaml"
+    file="$(find crane_plus_simulation)/config/crane_plus.yaml"
     command="load"
     />
   <param
@@ -34,7 +34,7 @@
     name="controller_spawner"
     pkg="controller_manager"
     type="spawner"
-    args="crane_plus_arm crane_plus_gripper"
+    args="crane_plus crane_plus_gripper"
     />
 
   <!-- Start the gripper command handler -->

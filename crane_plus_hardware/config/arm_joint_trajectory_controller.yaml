@@ -1,4 +1,4 @@
-crane_plus_arm:
+crane_plus:
   controller:
     package: dynamixel_controllers
     module: joint_trajectory_action_controller

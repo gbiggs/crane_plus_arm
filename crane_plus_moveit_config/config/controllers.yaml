@@ -1,6 +1,6 @@
 controller_manager_ns: /
 controller_list:
-  - name: crane_plus_arm
+  - name: crane_plus
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: true
@@ -9,6 +9,7 @@ controller_list:
       - crane_plus_shoulder_flex_joint
       - crane_plus_elbow_joint
       - crane_plus_wrist_joint
+      - crane_plus_gripper_joint
   - name: crane_plus_gripper
     action_ns: gripper_command
     type: GripperCommand

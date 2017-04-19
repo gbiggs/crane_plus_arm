@@ -1,0 +1,1 @@
+rosrun moveit_ikfast create_ikfast_moveit_plugin.py crane_plus arm crane_plus_ikfast_arm_plugin /home/geoff/src/workspaces/rsj/src/crane_plus_arm/crane_plus_ikfast_arm_plugin/src/crane_plus_arm_ikfast_solver.cpp

@@ -42,7 +42,7 @@
     type="controller_spawner.py"
     args="--manager=dynamixel_controller_manager
           --type=meta
-          crane_plus_arm
+          crane_plus
           shoulder_revolute_servo_controller
           shoulder_flex_servo_controller
           elbow_servo_controller

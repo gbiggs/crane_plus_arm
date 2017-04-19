@@ -3,8 +3,8 @@ moveit_setup_assistant_config:
     package: crane_plus_description
     relative_path: urdf/crane_plus.urdf
   SRDF:
-    relative_path: config/crane_plus_arm.srdf
+    relative_path: config/crane_plus.srdf
   CONFIG:
     author_name: Geoffrey Biggs
     author_email: geoffrey.biggs@aist.go.jp
-    generated_timestamp: 1491876775
+    generated_timestamp: 1492581424

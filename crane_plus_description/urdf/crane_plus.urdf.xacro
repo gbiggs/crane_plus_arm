@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <robot
-    name="crane_plus_arm"
+    name="crane_plus"
     xmlns:xacro="http://ros.org/wiki/xacro"
     xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
     xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
@@ -11,13 +11,13 @@
   <xacro:include filename="$(find crane_plus_description)/urdf/crane_plus.xacro"/>
 
   <!-- Link to provide the location reference for the arm -->
-  <link name="world"/>
+  <link name="base_link"/>
 
   <!-- Use the crane_plus macro to configure a Crane+ arm with desired joint
        velocities limit and lower/upper limits for the first joint. This
        allows accessing different operational areas, e.g. left-handed vs.
        right-handed robots. -->
-  <crane_plus parent="world"
+  <crane_plus parent="base_link"
               servo_color="black" bracket_color="grey" gripper_color="black"
               joints_vlimit="1.571"
               pan_llimit="-2.617" pan_ulimit="2.617">

@@ -5,6 +5,7 @@ controller_list:
       - crane_plus_shoulder_flex_joint
       - crane_plus_elbow_joint
       - crane_plus_wrist_joint
+      - crane_plus_gripper_joint
   - name: fake_gripper_controller
     joints:
       - crane_plus_moving_finger_joint

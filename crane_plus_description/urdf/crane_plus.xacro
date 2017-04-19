@@ -12,11 +12,11 @@
 
   <xacro:macro name="crane_plus" params="parent servo_color bracket_color
                gripper_color *origin joints_vlimit pan_llimit pan_ulimit">
-    <link name="crane_plus_base_link"/>
-    <joint name="crane_plus_base_joint" type="fixed">
+    <link name="crane_plus_mounting_link"/>
+    <joint name="crane_plus_mounting_joint" type="fixed">
       <xacro:insert_block name="origin"/>
       <parent link="${parent}"/>
-      <child link="crane_plus_base_link"/>
+      <child link="crane_plus_mounting_link"/>
     </joint>
 
     <!-- TODO: When rviz supports multiple materials per link, combine the
@@ -24,7 +24,7 @@
 
     <!-- Mounting plate -->
     <mounting_plate
-        parent="crane_plus_base_link"
+        parent="crane_plus_mounting_link"
         name="crane_plus_internal_mounting_plate"
         color="black">
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -197,12 +197,15 @@
     </joint>
     <link name="crane_plus_moving_finger_tip_link"/>
 
-    <!-- A virtual link to make it easy to find the centre of the gripper -->
-    <link name="crane_plus_gripper_centre"/>
-    <joint name="crane_plus_gripper_joint" type="fixed">
-      <origin xyz="0 -0.0537 0" rpy="${M_PI/2} -${M_PI/2} 0"/>
-      <parent link="crane_plus_internal_gripper_servo_link"/>
-      <child link="crane_plus_gripper_centre" />
+    <!-- A virtual link for the gripper to hang off, increasing the degrees of
+         freedom by one and making it easier for MoveIt! to plan. -->
+    <link name="crane_plus_gripper_link"/>
+    <joint name="crane_plus_gripper_joint" type="revolute">
+      <origin xyz="0 0 0.0537" rpy="0 0 -${M_PI/2}"/>
+      <axis xyz="1 0 0"/>
+      <parent link="crane_plus_internal_wrist_joiner_link"/>
+      <child link="crane_plus_gripper_link" />
+      <limit effort="30" velocity="1" lower="-${M_PI}" upper="${M_PI}"/>
     </joint>
 
   </xacro:macro>
