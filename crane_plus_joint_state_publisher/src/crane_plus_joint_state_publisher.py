@@ -36,8 +36,7 @@ def main():
     rospy.init_node('crane_plus_joint_state_publisher')
 
     try:
-        servo_controllers = rospy.get_param(
-            rosgraph.names.ns_join(rospy.get_name(), 'servo_controller_names'))
+        servo_controllers = rospy.get_param('~servo_controller_names')
     except KeyError:
         rospy.logerr('Configuration error: Could not find list of servo '
                      'controllers on the parameter server')
