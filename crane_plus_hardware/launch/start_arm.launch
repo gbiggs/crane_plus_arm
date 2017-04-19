@@ -68,6 +68,7 @@
       file="$(find crane_plus_joint_state_publisher)/config/servo_controller_names.yaml"
       command="load"
       />
+    <param name="publish_virtual_joint" value="crane_plus_gripper_joint"/>
   </node>
   <node name="robot_state_publisher"
     pkg="robot_state_publisher"

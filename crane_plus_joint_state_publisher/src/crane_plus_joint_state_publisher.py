@@ -30,6 +30,19 @@ def subscribe_to_servo_controller(joint, namespace, js_publisher):
                             callback_args=js_publisher)
 
 
+def publish_virtual_joint_cb_maker(joint_name, pub):
+    """Make a callback for publishing a zero'd JointState for a given joint."""
+    def publisher(event):
+        js = JointState()
+        js.header.stamp = rospy.Time.now()
+        js.name = [joint_name]
+        js.position = [0]
+        js.velocity = [0]
+        js.effort = [0]
+        pub.publish(js)
+    return publisher
+
+
 def main():
     """Main function."""
     rospy.init_node('crane_plus_joint_state_publisher')
@@ -41,6 +54,7 @@ def main():
                      'controllers on the parameter server')
         return 1
     namespace = rospy.get_param('namespace', '')
+    publish_virtual_joint = rospy.get_param('~publish_virtual_joint', True)
 
     if not servo_controllers:
         rospy.logerr('No servo controller names specified; nothing to publish')
@@ -51,6 +65,12 @@ def main():
     servo_subs = []
     for s in servo_controllers:
         servo_subs.append(subscribe_to_servo_controller(s, namespace, js_pub))
+
+    if publish_virtual_joint:
+        # Publish the virtual gripper joint regularly
+        rospy.Timer(
+            rospy.Duration(1),
+            publish_virtual_joint_cb_maker(publish_virtual_joint, js_pub))
 
     rospy.spin()
     return 0
