@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+for i in $(seq 5); do rosrun dynamixel_driver set_torque.py ${i} "${1}"; done
