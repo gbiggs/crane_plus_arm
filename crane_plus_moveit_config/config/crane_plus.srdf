@@ -31,11 +31,11 @@
         <joint name="crane_plus_wrist_joint" value="0" />
     </group_state>
     <group_state name="resting" group="arm">
-        <joint name="crane_plus_elbow_joint" value="1.472" />
+        <joint name="crane_plus_elbow_joint" value="1.7787" />
         <joint name="crane_plus_gripper_joint" value="0" />
-        <joint name="crane_plus_shoulder_flex_joint" value="1.224" />
+        <joint name="crane_plus_shoulder_flex_joint" value="0.884" />
         <joint name="crane_plus_shoulder_revolute_joint" value="0" />
-        <joint name="crane_plus_wrist_joint" value="0.9293" />
+        <joint name="crane_plus_wrist_joint" value="1.3373" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="gripper" parent_link="crane_plus_gripper_link" group="gripper" parent_group="arm" />
