@@ -34,7 +34,7 @@
     name="controller_spawner"
     pkg="controller_manager"
     type="spawner"
-    args="crane_plus crane_plus_gripper"
+    args="crane_plus crane_plus_finger"
     />
 
   <!-- Start the gripper command handler -->
@@ -43,6 +43,7 @@
     type="gripper_controller.py"
     output="screen"
     >
-    <param name="servo_namespace" value="/crane_plus_gripper"/>
+    <param name="servo_namespace" value="/crane_plus_finger"/>
+    <param name="is_simulated" value="true"/>
   </node>
 </launch>

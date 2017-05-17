@@ -8,6 +8,7 @@ import rospy
 import rosgraph
 import actionlib
 from control_msgs.msg import GripperCommandAction, GripperCommandFeedback, GripperCommandResult
+from control_msgs.msg import JointControllerState
 from dynamixel_msgs.msg import JointState
 from std_msgs.msg import Float64
 
@@ -34,7 +35,8 @@ class GripperActionServer:
                  open_angle,
                  timeout,
                  delta,
-                 overload_limit):
+                 overload_limit,
+                 is_simulated):
         """Initialise the gripper action server.
 
         Args:
@@ -62,6 +64,9 @@ class GripperActionServer:
                 draw; when this is exceeded, the gripper is assumed to have
                 stalled due to a blockage and the servo is commanded to its
                 current position to stop it moving.
+            is_simulated (bool): If a simulated CRANE+ is being used instead of
+                real hardware (this changes the type of the joint state
+                message).
 
         """
         self._movement_radius = movement_radius
@@ -91,9 +96,14 @@ class GripperActionServer:
             rosgraph.names.ns_join(servo_namespace, 'command'),
             Float64,
             queue_size=1)
-        self._state_sub = rospy.Subscriber(
-            rosgraph.names.ns_join(servo_namespace, 'state'),
-            JointState, self._state_update)
+        if is_simulated:
+            self._state_sub = rospy.Subscriber(
+                rosgraph.names.ns_join(servo_namespace, 'state'),
+                JointControllerState, self._state_update)
+        else:
+            self._state_sub = rospy.Subscriber(
+                rosgraph.names.ns_join(servo_namespace, 'state'),
+                JointState, self._state_update)
         self._timer = None
         self._last_state = None
 
@@ -101,17 +111,24 @@ class GripperActionServer:
         rospy.loginfo('Gripper action server waiting for goals')
 
     def _state_to_msg(self, state, msg):
-        msg.position = self.angle_to_width(state.current_pos)
-        msg.effort = state.load
+        if type(msg) is JointState:
+            current_pos = state.current_pos
+            msg.effort = state.load
+            is_moving = state.is_moving
+        else:
+            current_pos = state.process_value
+            msg.effort = 0
+            is_moving = True if state.command > 0.01 else False
+        msg.position = self.angle_to_width(current_pos)
         if goal_achieved(
-                self.angle_to_width(state.current_pos),
+                self.angle_to_width(current_pos),
                 self._goal.command.position,
                 self._delta) and \
-           not state.is_moving:
+           not is_moving:
             msg.stalled = False
             msg.reached_goal = True
         else:
-            msg.stalled = not state.is_moving
+            msg.stalled = not is_moving
             msg.reached_goal = False
         return msg
 
@@ -241,7 +258,11 @@ def main():
     # Default error delta of 1 mm
     delta = rospy.get_param('~delta', 0.005)
     # Overload protection limit
-    overload_limit = rospy.get_param('overload_limit', 0.9)
+    overload_limit = rospy.get_param('~overload_limit', 0.9)
+    # Set to true if using the simulated arm
+    is_simulated = rospy.get_param('~is_simulated', False)
+
+    rospy.loginfo("SImulated: " + str(is_simulated))
 
     server = GripperActionServer(servo_namespace,
                                  movement_radius,
@@ -249,7 +270,8 @@ def main():
                                  open_angle,
                                  timeout,
                                  delta,
-                                 overload_limit)
+                                 overload_limit,
+                                 is_simulated)
     rospy.spin()
     return 0
 
