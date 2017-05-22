@@ -5,7 +5,7 @@
     />
   <param
     name="robot_description"
-    command="$(find xacro)/xacro.py --inorder '$(find crane_plus_simulation)/urdf/simulated_crane_plus.urdf.xacro'"
+    command="$(find xacro)/xacro --inorder '$(find crane_plus_simulation)/urdf/simulated_crane_plus.urdf.xacro'"
     />
 
   <!-- Start the manipulator's world -->
