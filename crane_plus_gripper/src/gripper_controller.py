@@ -83,7 +83,8 @@ class GripperActionServer:
             '\tOpen angle: {} rad\n'.format(self._open_angle) +
             '\tMovement timeout: {} s\n'.format(self._timeout) +
             '\tPosition error delta: {} m\n'.format(self._delta) +
-            '\tOverload limit: {} A'.format(self._overload))
+            '\tOverload limit: {} A'.format(self._overload) +
+            '\tIs simulated: {}'.format(is_simulated))
 
         self._as = actionlib.SimpleActionServer(
             rosgraph.names.ns_join(rospy.get_name(), 'gripper_command'),
@@ -110,14 +111,14 @@ class GripperActionServer:
         self._as.start()
         rospy.loginfo('Gripper action server waiting for goals')
 
-    def _state_to_msg(self, state, msg):
-        if type(msg) is JointState:
+    def _state_to_feedback(self, state, msg):
+        if type(state) is JointState:
             current_pos = state.current_pos
             msg.effort = state.load
             is_moving = state.is_moving
         else:
             current_pos = state.process_value
-            msg.effort = 0
+            msg.effort = 0.1 if state.command > 0.01 else 0
             is_moving = True if state.command > 0.01 else False
         msg.position = self.angle_to_width(current_pos)
         if goal_achieved(
@@ -169,7 +170,7 @@ class GripperActionServer:
             self._last_state = JointState()
         result = GripperCommandResult()
         self._as.set_preempted(
-            result=self._state_to_msg(self._last_state, result),
+            result=self._state_to_feedback(self._last_state, result),
             text='Preempted')
 
     def _timed_out(self, te):
@@ -179,7 +180,7 @@ class GripperActionServer:
             self._last_state = JointState()
         result = GripperCommandResult()
         self._as.set_aborted(
-            result=self._state_to_msg(self._last_state, result),
+            result=self._state_to_feedback(self._last_state, result),
             text='Timed out')
 
     def _state_update(self, state):
@@ -188,7 +189,7 @@ class GripperActionServer:
         rospy.logdebug('Got servo state update:\n{}'.format(state))
         self._last_state = state
         feedback = GripperCommandFeedback()
-        self._state_to_msg(state, feedback)
+        self._state_to_feedback(state, feedback)
         self._as.publish_feedback(feedback)
         if feedback.reached_goal:
             rospy.loginfo('Determined from state update that gripper goal has '
@@ -198,7 +199,7 @@ class GripperActionServer:
                 self._timer = None
             result = GripperCommandResult()
             self._as.set_succeeded(
-                result=self._state_to_msg(state, result), text='Reached goal')
+                result=self._state_to_feedback(state, result), text='Reached goal')
         elif feedback.stalled:
             rospy.loginfo('Determined from state update that gripper has '
                           'stalled')
@@ -207,7 +208,7 @@ class GripperActionServer:
                 self._timer = None
             result = GripperCommandResult()
             self._as.set_aborted(
-                result=self._state_to_msg(state, result), text='Stalled')
+                result=self._state_to_feedback(state, result), text='Stalled')
         elif abs(state.load) > self._overload:
             rospy.loginfo('Determined from state update that gripper is '
                           'blocked (overload protection)')
@@ -217,7 +218,7 @@ class GripperActionServer:
             self._command_pub.publish(state.current_pos)
             result = GripperCommandResult()
             self._as.set_aborted(
-                result=self._state_to_msg(state, result), text='Blocked')
+                result=self._state_to_feedback(state, result), text='Blocked')
 
     def width_to_angle(self, width):
         """Calculate the angle to achieve a distance between the fingers."""
