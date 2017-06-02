@@ -7,7 +7,7 @@
     <param name="checkerboard_width" value="8"/>
     <param name="checkerboard_height" value="6"/>
     <param name="checkerboard_grid" value="0.0285"/>
-    <param name="fixed_frame" value="/base_link"/>
+    <param name="fixed_frame" value="/world"/>
     <param name="tip_frame" value="/crane_plus_fixed_finger_tip_link"/>
     <param name="gripper_tip_x" value="0.016"/> <!-- Finger half width is 17 mm; subtract 1 mm for the cut-off corner -->
     <param name="gripper_tip_y" value="0"/>
