@@ -263,8 +263,6 @@ def main():
     # Set to true if using the simulated arm
     is_simulated = rospy.get_param('~is_simulated', False)
 
-    rospy.loginfo("SImulated: " + str(is_simulated))
-
     server = GripperActionServer(servo_namespace,
                                  movement_radius,
                                  closed_angle,
