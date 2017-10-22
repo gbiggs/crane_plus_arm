@@ -30,7 +30,7 @@
   <transmission name="shoulder_revolute">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="crane_plus_shoulder_revolute_joint">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="shoulder_revolute_servo">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
@@ -42,7 +42,7 @@
   <transmission name="shoulder_flex">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="crane_plus_shoulder_flex_joint">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="shoulder_flex_servo">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
@@ -54,7 +54,7 @@
   <transmission name="elbow">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="crane_plus_elbow_joint">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="elbow_servo">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
@@ -66,7 +66,7 @@
   <transmission name="wrist">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="crane_plus_wrist_joint">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="wrist_servo">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
@@ -78,7 +78,7 @@
   <transmission name="finger">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="crane_plus_moving_finger_joint">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="finger_servo">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
