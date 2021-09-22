@@ -17,10 +17,10 @@
        velocities limit and lower/upper limits for the first joint. This
        allows accessing different operational areas, e.g. left-handed vs.
        right-handed robots. -->
-  <crane_plus parent="base_link"
+  <xacro:crane_plus parent="base_link"
               servo_color="black" bracket_color="grey" gripper_color="black"
               joints_vlimit="1.571"
               pan_llimit="-2.617" pan_ulimit="2.617">
     <origin xyz="0 0 0"/>
-  </crane_plus>
+  </xacro:crane_plus>
 </robot>
